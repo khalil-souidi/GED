@@ -79,6 +79,9 @@
 <!--			<artifactId>spring-boot-starter-oauth2-client</artifactId>-->
 <!--		</dependency>-->
 
+		<!-- Cloud -->
+
+
 		<!-- Database -->
 		<dependency>
 			<groupId>mysql</groupId>

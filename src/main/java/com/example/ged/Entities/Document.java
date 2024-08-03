@@ -1,4 +1,3 @@
-
 package com.example.ged.Entities;
 
 import lombok.AllArgsConstructor;
@@ -45,10 +44,19 @@ public class Document {
     @JoinColumn(name = "metadata_id", referencedColumnName = "id")
     private Metadata metadata;
 
+    @OneToOne(cascade = CascadeType.ALL, mappedBy = "document")
+    private Workflow workflow;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private Users uploadedBy;
+
     private String commentaireRejet;
 
     @OneToMany(mappedBy = "document", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<DocumentVersion> versions = new ArrayList<>();
+
+    private boolean archived = false;
 
     @PrePersist
     protected void onCreate() {

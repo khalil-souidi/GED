@@ -20,8 +20,6 @@ public class Metadata {
     private String typeFichier;
     private String nomFichierOriginal;
     private Date dateUpload;
-    private String uploadedBy;
-
     @Lob
     private byte[] fichier;
 

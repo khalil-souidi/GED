@@ -44,6 +44,10 @@ public class DocumentVersion {
     @JoinColumn(name = "metadata_id", referencedColumnName = "id")
     private Metadata metadata;
 
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private Users uploadedBy;
+
     private String commentaireRejet;
 
     @PrePersist
