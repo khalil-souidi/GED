@@ -7,7 +7,9 @@ import lombok.NoArgsConstructor;
 import org.apache.commons.lang3.RandomStringUtils;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -45,12 +47,12 @@ public class Document {
 
     private String commentaireRejet;
 
+    @OneToMany(mappedBy = "document", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<DocumentVersion> versions = new ArrayList<>();
 
     @PrePersist
     protected void onCreate() {
         this.dateCreation = new Date();
         this.codeUnique = RandomStringUtils.randomAlphanumeric(8);
     }
-
-
 }

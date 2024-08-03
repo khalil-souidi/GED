@@ -2,6 +2,7 @@ package com.example.ged.controllers;
 
 import com.example.ged.Entities.Document;
 import com.example.ged.Entities.DocumentStatus;
+import com.example.ged.Entities.DocumentVersion;
 import com.example.ged.Services.DepartmentService;
 import com.example.ged.Services.DocumentService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -75,5 +76,37 @@ public class DocumentController {
         return ResponseEntity.ok(updatedDocument);
     }
 
+    @PutMapping("/documents/{id}")
+    public ResponseEntity<Document> updateDocument(
+            @PathVariable Long id,
+            @RequestParam("typeDoc") String typeDoc,
+            @RequestParam("nomDoc") String nomDoc,
+            @RequestParam("nomClient") String nomClient,
+            @RequestParam("numClient") String numClient,
+            @RequestParam("emailClient") String emailClient,
+            @RequestParam("file") MultipartFile file,
+            @RequestParam("departementName") String departementName) throws IOException {
+        Document updatedDocument = new Document();
+        updatedDocument.setTypeDoc(typeDoc);
+        updatedDocument.setNomDoc(nomDoc);
+        updatedDocument.setNomClient(nomClient);
+        updatedDocument.setNumClient(numClient);
+        updatedDocument.setEmailClient(emailClient);
+        updatedDocument.setDepartement(departmentService.getDepartementByName(departementName));
+        Document document = documentService.updateDocument(id, updatedDocument, file);
+        return ResponseEntity.ok(document);
+    }
 
+    @PostMapping("/documents/{id}/versions")
+    public ResponseEntity<Document> addDocumentVersion(
+            @PathVariable Long id,
+            @RequestParam("file") MultipartFile file) throws IOException {
+        Document document = documentService.addDocumentVersion(id, file);
+        return ResponseEntity.ok(document);
+    }
+
+    @GetMapping("/documents/{id}/versions")
+    public List<DocumentVersion> getDocumentVersions(@PathVariable Long id) {
+        return documentService.getDocumentVersions(id);
+    }
 }
