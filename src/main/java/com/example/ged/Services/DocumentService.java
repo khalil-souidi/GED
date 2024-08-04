@@ -26,9 +26,35 @@ public class DocumentService {
     private AuditLogService auditLogService;
     @Autowired
     private EmailService emailService;
+    @Autowired
+    private TypeDocumentService typeDocumentService;
 
     public List<Document> getAllDocuments() {
         return documentRepository.findAll();
+    }
+
+    public List<Document> getDocumentsByStatus(DocumentStatus status) {
+        return documentRepository.findByDocumentStatus(status);
+    }
+
+    public List<Document> searchDocumentsByName(String name) {
+        return documentRepository.findByNomDocContainingIgnoreCase(name);
+    }
+
+    public List<Document> searchDocumentsByType(String type) {
+        return documentRepository.findByTypeDocContainingIgnoreCase(type);
+    }
+
+    public List<Document> searchDocumentsByCodeUnique(String codeUnique) {
+        return documentRepository.findByCodeUnique(codeUnique);
+    }
+
+    public List<Document> searchDocumentsByDate(Date startDate, Date endDate) {
+        return documentRepository.findByDateCreationBetween(startDate, endDate);
+    }
+
+    public List<Document> getDocumentsByWorkflow(EtapeWorkflow etapeWorkflow) {
+        return documentRepository.findByWorkflowEtapeCourante(etapeWorkflow);
     }
 
     public Document saveDocument(Document document, MultipartFile file, Users user) throws IOException {

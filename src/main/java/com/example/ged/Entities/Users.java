@@ -1,10 +1,13 @@
 package com.example.ged.Entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -19,4 +22,7 @@ public class Users {
     private String nom;
     @ManyToOne
     private Departement department;
+    @JsonIgnore
+    @OneToMany(mappedBy = "Users", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Document> documents = new ArrayList<>();
 }

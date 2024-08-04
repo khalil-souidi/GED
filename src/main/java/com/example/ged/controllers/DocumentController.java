@@ -1,17 +1,16 @@
 package com.example.ged.controllers;
 
 import com.example.ged.Entities.*;
-import com.example.ged.Services.DepartmentService;
-import com.example.ged.Services.DocumentService;
-import com.example.ged.Services.UserService;
-import com.example.ged.Services.WorkflowService;
+import com.example.ged.Services.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -30,14 +29,50 @@ public class DocumentController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private TypeDocumentService typeDocumentService;
+
     @GetMapping("/documents")
     public List<Document> getAllDocuments() {
         return documentService.getAllDocuments();
     }
 
-    @GetMapping("/documents/{id}")
+    @GetMapping("/{id}")
     public Document getDocumentById(@PathVariable Long id) {
         return documentService.getDocumentById(id);
+    }
+
+    @GetMapping("/status/{status}")
+    public ResponseEntity<List<Document>> getDocumentsByStatus(@PathVariable DocumentStatus status) {
+        List<Document> documents = documentService.getDocumentsByStatus(status);
+        return ResponseEntity.ok(documents);
+    }
+
+    @GetMapping("/search")
+    public ResponseEntity<List<Document>> searchDocuments(@RequestParam(required = false) String name,
+                                                          @RequestParam(required = false) String type,
+                                                          @RequestParam(required = false) String codeUnique,
+                                                          @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") Date startDate,
+                                                          @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") Date endDate) {
+        List<Document> documents;
+        if (name != null) {
+            documents = documentService.searchDocumentsByName(name);
+        } else if (type != null) {
+            documents = documentService.searchDocumentsByType(type);
+        } else if (codeUnique != null) {
+            documents = documentService.searchDocumentsByCodeUnique(codeUnique);
+        } else if (startDate != null && endDate != null) {
+            documents = documentService.searchDocumentsByDate(startDate, endDate);
+        } else {
+            documents = documentService.getAllDocuments();
+        }
+        return ResponseEntity.ok(documents);
+    }
+
+    @GetMapping("/workflow/{etapeWorkflow}")
+    public ResponseEntity<List<Document>> getDocumentsByWorkflow(@PathVariable EtapeWorkflow etapeWorkflow) {
+        List<Document> documents = documentService.getDocumentsByWorkflow(etapeWorkflow);
+        return ResponseEntity.ok(documents);
     }
 
     @GetMapping("/documents/{id}/file")
@@ -51,7 +86,7 @@ public class DocumentController {
 
     @PostMapping("/documents")
     public Document createDocument(
-            @RequestParam("typeDoc") String typeDoc,
+            @RequestParam("typeDocId") Long typeDocId,
             @RequestParam("nomDoc") String nomDoc,
             @RequestParam("nomClient") String nomClient,
             @RequestParam("numClient") String numClient,
@@ -60,7 +95,8 @@ public class DocumentController {
             @RequestParam("departementName") String departementName,
             @RequestParam("userId") Long userId) throws IOException {
         Document document = new Document();
-        document.setTypeDoc(typeDoc);
+        TypeDocument typeDocument = typeDocumentService.getTypeDocumentById(typeDocId);
+        document.setTypeDoc(typeDocument);
         document.setNomDoc(nomDoc);
         document.setNomClient(nomClient);
         document.setNumClient(numClient);
@@ -90,7 +126,7 @@ public class DocumentController {
     @PutMapping("/documents/{id}")
     public ResponseEntity<Document> updateDocument(
             @PathVariable Long id,
-            @RequestParam("typeDoc") String typeDoc,
+            @RequestParam("typeDocId") Long typeDocId,
             @RequestParam("nomDoc") String nomDoc,
             @RequestParam("nomClient") String nomClient,
             @RequestParam("numClient") String numClient,
@@ -98,7 +134,8 @@ public class DocumentController {
             @RequestParam("file") MultipartFile file,
             @RequestParam("departementName") String departementName) throws IOException {
         Document updatedDocument = new Document();
-        updatedDocument.setTypeDoc(typeDoc);
+        TypeDocument typeDocument = typeDocumentService.getTypeDocumentById(typeDocId);
+        updatedDocument.setTypeDoc(typeDocument);
         updatedDocument.setNomDoc(nomDoc);
         updatedDocument.setNomClient(nomClient);
         updatedDocument.setNumClient(numClient);
