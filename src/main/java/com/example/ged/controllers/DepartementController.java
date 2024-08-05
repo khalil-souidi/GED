@@ -9,30 +9,22 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/departements")
 public class DepartementController {
 
     @Autowired
     private DepartmentService departmentService;
 
-    @GetMapping("/departements")
-    public List<Departement> getAllDepartements() {
-        return departmentService.getAllDepartements();
-    }
 
-    @PostMapping("/departements")
+    @PostMapping
     public Departement createDepartement(@RequestBody Departement departement) {
         return departmentService.saveDepartement(departement);
     }
 
-    @GetMapping("/departements/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<Departement> getDepartementById(@PathVariable Long id) {
         Departement departement = departmentService.getDepartementById(id);
         return ResponseEntity.ok(departement);
     }
 
-    @DeleteMapping("/departements/{id}")
-    public void deleteDepartement(@PathVariable Long id) {
-        departmentService.deleteDepartement(id);
-    }
 }

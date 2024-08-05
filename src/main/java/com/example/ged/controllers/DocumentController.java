@@ -37,18 +37,18 @@ public class DocumentController {
         return documentService.getAllDocuments();
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/documents/{id}")
     public Document getDocumentById(@PathVariable Long id) {
         return documentService.getDocumentById(id);
     }
 
-    @GetMapping("/status/{status}")
+    @GetMapping("/documents/status/{status}")
     public ResponseEntity<List<Document>> getDocumentsByStatus(@PathVariable DocumentStatus status) {
         List<Document> documents = documentService.getDocumentsByStatus(status);
         return ResponseEntity.ok(documents);
     }
 
-    @GetMapping("/search")
+    @GetMapping("/documents/search")
     public ResponseEntity<List<Document>> searchDocuments(@RequestParam(required = false) String name,
                                                           @RequestParam(required = false) String type,
                                                           @RequestParam(required = false) String codeUnique,
@@ -69,7 +69,7 @@ public class DocumentController {
         return ResponseEntity.ok(documents);
     }
 
-    @GetMapping("/workflow/{etapeWorkflow}")
+    @GetMapping("/documents/workflow/{etapeWorkflow}")
     public ResponseEntity<List<Document>> getDocumentsByWorkflow(@PathVariable EtapeWorkflow etapeWorkflow) {
         List<Document> documents = documentService.getDocumentsByWorkflow(etapeWorkflow);
         return ResponseEntity.ok(documents);
@@ -86,7 +86,7 @@ public class DocumentController {
 
     @PostMapping("/documents")
     public Document createDocument(
-            @RequestParam("typeDocId") Long typeDocId,
+            @RequestParam("typeDocNom") String typeDocNom,
             @RequestParam("nomDoc") String nomDoc,
             @RequestParam("nomClient") String nomClient,
             @RequestParam("numClient") String numClient,
@@ -95,15 +95,13 @@ public class DocumentController {
             @RequestParam("departementName") String departementName,
             @RequestParam("userId") Long userId) throws IOException {
         Document document = new Document();
-        TypeDocument typeDocument = typeDocumentService.getTypeDocumentById(typeDocId);
-        document.setTypeDoc(typeDocument);
         document.setNomDoc(nomDoc);
         document.setNomClient(nomClient);
         document.setNumClient(numClient);
         document.setEmailClient(emailClient);
         document.setDepartement(departmentService.getDepartementByName(departementName));
         Users user = userService.getUserById(userId);
-        return documentService.saveDocument(document, file, user);
+        return documentService.saveDocument(document, file, user, typeDocNom);
     }
 
     @DeleteMapping("/documents/{id}")
@@ -126,7 +124,7 @@ public class DocumentController {
     @PutMapping("/documents/{id}")
     public ResponseEntity<Document> updateDocument(
             @PathVariable Long id,
-            @RequestParam("typeDocId") Long typeDocId,
+            @RequestParam("typeDocNom") String typeDocNom,
             @RequestParam("nomDoc") String nomDoc,
             @RequestParam("nomClient") String nomClient,
             @RequestParam("numClient") String numClient,
@@ -134,7 +132,7 @@ public class DocumentController {
             @RequestParam("file") MultipartFile file,
             @RequestParam("departementName") String departementName) throws IOException {
         Document updatedDocument = new Document();
-        TypeDocument typeDocument = typeDocumentService.getTypeDocumentById(typeDocId);
+        TypeDocument typeDocument = typeDocumentService.getTypeDocumentByNom(typeDocNom);
         updatedDocument.setTypeDoc(typeDocument);
         updatedDocument.setNomDoc(nomDoc);
         updatedDocument.setNomClient(nomClient);

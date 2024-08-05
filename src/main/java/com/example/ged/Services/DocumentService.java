@@ -9,8 +9,6 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.util.Date;
 import java.util.List;
-import java.util.Optional;
-
 @Service
 public class DocumentService {
 
@@ -42,7 +40,7 @@ public class DocumentService {
     }
 
     public List<Document> searchDocumentsByType(String type) {
-        return documentRepository.findByTypeDocContainingIgnoreCase(type);
+        return documentRepository.findByTypeDoc_NomContainingIgnoreCase(type);
     }
 
     public List<Document> searchDocumentsByCodeUnique(String codeUnique) {
@@ -57,7 +55,10 @@ public class DocumentService {
         return documentRepository.findByWorkflowEtapeCourante(etapeWorkflow);
     }
 
-    public Document saveDocument(Document document, MultipartFile file, Users user) throws IOException {
+    public Document saveDocument(Document document, MultipartFile file, Users user, String typeDocNom) throws IOException {
+        TypeDocument typeDocument = typeDocumentService.getTypeDocumentByNom(typeDocNom);
+        document.setTypeDoc(typeDocument);
+
         if (file != null && !file.isEmpty()) {
             Metadata metadata = new Metadata();
             metadata.setNomFichierOriginal(file.getOriginalFilename());
@@ -72,7 +73,6 @@ public class DocumentService {
         saveDocumentVersion(savedDocument, user);
         createInitialWorkflow(savedDocument);
 
-        // Log audit event
         auditLogService.logAction("CREATE", "Document", savedDocument.getId(), "Document created", user);
 
         return savedDocument;
@@ -103,7 +103,6 @@ public class DocumentService {
         version.setUploadedBy(user);
         documentVersionRepository.save(version);
 
-        // Log audit event
         auditLogService.logAction("CREATE_VERSION", "DocumentVersion", version.getId(), "Document version created", user);
     }
 
@@ -111,51 +110,25 @@ public class DocumentService {
         Document document = documentRepository.findById(id).orElseThrow(() -> new RuntimeException("Document not found with id " + id));
         documentRepository.deleteById(id);
 
-        // Log audit event
         auditLogService.logAction("DELETE", "Document", id, "Document deleted", document.getUploadedBy());
     }
 
     public Document updateDocumentStatus(Long id, DocumentStatus status, String commentaireRejet) {
-        Optional<Document> documentOpt = documentRepository.findById(id);
-        if (documentOpt.isPresent()) {
-            Document document = documentOpt.get();
-            document.setDocumentStatus(status);
-            if (status == DocumentStatus.REFUSÉ) {
-                document.setCommentaireRejet(commentaireRejet);
-            }
-            document = documentRepository.save(document);
-            saveDocumentVersion(document, document.getUploadedBy());
-
-            // Update workflow status
-            updateWorkflow(document, status);
-
-            // Log audit event
-            auditLogService.logAction("UPDATE_STATUS", "Document", document.getId(), "Document status updated to " + status, document.getUploadedBy());
-
-            // Prepare email content
-            StringBuilder emailContent = new StringBuilder();
-            emailContent
-                    .append("Votre Dossier a été ")
-                    .append(status == DocumentStatus.APPROUVÉ ? "approuvé" : "refusé")
-                    .append(".").append("\n")
-                    .append("Numéro de Dossier: ").append(document.getCodeUnique()).append("\n");
-            if (status == DocumentStatus.REFUSÉ) {
-                emailContent.append(" Commentaire de rejet: ").append(commentaireRejet).append("\n");
-            }
-
-            emailContent.append("\n\nBesoin d'aide ?\n")
-                    .append("Si vous avez des questions ou besoin d'assistance, n'hésitez pas à nous contacter :\n\n")
-                    .append("Téléphone : +212 (0)5 24 44 77 88\n")
-                    .append("Email : support@radeema.ma\n")
-                    .append("Adresse : Avenue Hassan II, Marrakech, Maroc");
-
-            // Send the email
-            emailService.sendEmail(document.getEmailClient(), "Statut de votre Dossier", emailContent.toString());
-
-            return document;
-        } else {
-            throw new RuntimeException("Document not found with id " + id);
+        Document document = documentRepository.findById(id).orElseThrow(() -> new RuntimeException("Document not found with id " + id));
+        document.setDocumentStatus(status);
+        if (status == DocumentStatus.REFUSÉ) {
+            document.setCommentaireRejet(commentaireRejet);
         }
+        document = documentRepository.save(document);
+        saveDocumentVersion(document, document.getUploadedBy());
+
+        updateWorkflow(document, status);
+
+        auditLogService.logAction("UPDATE_STATUS", "Document", document.getId(), "Document status updated to " + status, document.getUploadedBy());
+
+        sendStatusUpdateEmail(document, status, commentaireRejet);
+
+        return document;
     }
 
     private void updateWorkflow(Document document, DocumentStatus status) {
@@ -169,22 +142,37 @@ public class DocumentService {
         workflowRepository.save(workflow);
     }
 
-    public void WorkflowToCloture(Long documentId) {
-        Optional<Document> documentOpt = documentRepository.findById(documentId);
-        if (documentOpt.isPresent()) {
-            Document document = documentOpt.get();
-            Workflow workflow = document.getWorkflow();
-            workflow.setEtapeCourante(EtapeWorkflow.CLOTURE);
-            workflow.setDateAction(new Date());
-            document.setArchived(true);
-            workflowRepository.save(workflow);
-            documentRepository.save(document);
-
-            // Log audit event
-            auditLogService.logAction("CLOSE_WORKFLOW", "Document", document.getId(), "Document workflow closed and archived", document.getUploadedBy());
-        } else {
-            throw new RuntimeException("Document not found with id " + documentId);
+    private void sendStatusUpdateEmail(Document document, DocumentStatus status, String commentaireRejet) {
+        StringBuilder emailContent = new StringBuilder();
+        emailContent.append("Votre Dossier a été ")
+                .append(status == DocumentStatus.APPROUVÉ ? "approuvé" : "refusé")
+                .append(".").append("\n")
+                .append("Numéro de Dossier: ").append(document.getCodeUnique()).append("\n");
+        if (status == DocumentStatus.REFUSÉ) {
+            emailContent.append(" Commentaire de rejet: ").append(commentaireRejet).append("\n");
         }
+        emailContent.append("\n\nBesoin d'aide ?\n")
+                .append("Si vous avez des questions ou besoin d'assistance, n'hésitez pas à nous contacter :\n\n")
+                .append("Téléphone : +212 (0)5 24 44 77 88\n")
+                .append("Email : support@radeema.ma\n")
+                .append("Adresse : Avenue Hassan II, Marrakech, Maroc");
+
+        emailService.sendEmail(document.getEmailClient(), "Statut de votre Dossier", emailContent.toString());
+    }
+
+    public void WorkflowToCloture(Long documentId) {
+        Document document = documentRepository.findById(documentId).orElseThrow(() -> new RuntimeException("Document not found with id " + documentId));
+        Workflow workflow = document.getWorkflow();
+        if (workflow.getEtapeCourante() != EtapeWorkflow.TRAITEMENT) {
+            throw new RuntimeException("Document workflow must be in 'TRAITEMENT' stage to be closed.");
+        }
+        workflow.setEtapeCourante(EtapeWorkflow.CLOTURE);
+        workflow.setDateAction(new Date());
+        document.setArchived(true);
+        workflowRepository.save(workflow);
+        documentRepository.save(document);
+
+        auditLogService.logAction("CLOSE_WORKFLOW", "Document", document.getId(), "Document workflow closed and archived", document.getUploadedBy());
     }
 
     public Document getDocumentById(Long id) {
@@ -196,76 +184,64 @@ public class DocumentService {
     }
 
     public Document updateDocument(Long id, Document updatedDocument, MultipartFile file) throws IOException {
-        Optional<Document> documentOpt = documentRepository.findById(id);
-        if (documentOpt.isPresent()) {
-            Document existingDocument = documentOpt.get();
+        Document existingDocument = documentRepository.findById(id).orElseThrow(() -> new RuntimeException("Document not found with id " + id));
 
-            if (file != null && !file.isEmpty()) {
-                Metadata metadata = new Metadata();
-                metadata.setNomFichierOriginal(file.getOriginalFilename());
-                metadata.setTypeFichier(file.getContentType());
-                metadata.setFichier(file.getBytes());
-                metadata.setDateUpload(new Date());
-                metadata = metadataRepository.save(metadata);
-                existingDocument.setMetadata(metadata);
-            }
-
-            existingDocument.setTypeDoc(updatedDocument.getTypeDoc());
-            existingDocument.setNomDoc(updatedDocument.getNomDoc());
-            existingDocument.setNomClient(updatedDocument.getNomClient());
-            existingDocument.setNumClient(updatedDocument.getNumClient());
-            existingDocument.setEmailClient(updatedDocument.getEmailClient());
-            existingDocument.setDocumentStatus(updatedDocument.getDocumentStatus());
-            existingDocument.setDepartement(updatedDocument.getDepartement());
-            existingDocument.setCommentaireRejet(updatedDocument.getCommentaireRejet());
-
-            Document savedDocument = documentRepository.save(existingDocument);
-            saveDocumentVersion(savedDocument, existingDocument.getUploadedBy());
-
-            // Log audit event
-            auditLogService.logAction("UPDATE", "Document", savedDocument.getId(), "Document updated", existingDocument.getUploadedBy());
-
-            return savedDocument;
-        } else {
-            throw new RuntimeException("Document not found with id " + id);
+        if (file != null && !file.isEmpty()) {
+            Metadata metadata = new Metadata();
+            metadata.setNomFichierOriginal(file.getOriginalFilename());
+            metadata.setTypeFichier(file.getContentType());
+            metadata.setFichier(file.getBytes());
+            metadata.setDateUpload(new Date());
+            metadata = metadataRepository.save(metadata);
+            existingDocument.setMetadata(metadata);
         }
+
+        existingDocument.setTypeDoc(updatedDocument.getTypeDoc());
+        existingDocument.setNomDoc(updatedDocument.getNomDoc());
+        existingDocument.setNomClient(updatedDocument.getNomClient());
+        existingDocument.setNumClient(updatedDocument.getNumClient());
+        existingDocument.setEmailClient(updatedDocument.getEmailClient());
+        existingDocument.setDocumentStatus(updatedDocument.getDocumentStatus());
+        existingDocument.setDepartement(updatedDocument.getDepartement());
+        existingDocument.setCommentaireRejet(updatedDocument.getCommentaireRejet());
+
+        Document savedDocument = documentRepository.save(existingDocument);
+        saveDocumentVersion(savedDocument, existingDocument.getUploadedBy());
+
+        auditLogService.logAction("UPDATE", "Document", savedDocument.getId(), "Document updated", existingDocument.getUploadedBy());
+
+        return savedDocument;
     }
 
     public Document addDocumentVersion(Long documentId, MultipartFile file, Users user) throws IOException {
-        Optional<Document> documentOpt = documentRepository.findById(documentId);
-        if (documentOpt.isPresent()) {
-            Document document = documentOpt.get();
+        Document document = documentRepository.findById(documentId).orElseThrow(() -> new RuntimeException("Document not found with id " + documentId));
 
-            if (file != null && !file.isEmpty()) {
-                Metadata metadata = new Metadata();
-                metadata.setNomFichierOriginal(file.getOriginalFilename());
-                metadata.setTypeFichier(file.getContentType());
-                metadata.setFichier(file.getBytes());
-                metadata.setDateUpload(new Date());
-                metadata = metadataRepository.save(metadata);
+        if (file != null && !file.isEmpty()) {
+            Metadata metadata = new Metadata();
+            metadata.setNomFichierOriginal(file.getOriginalFilename());
+            metadata.setTypeFichier(file.getContentType());
+            metadata.setFichier(file.getBytes());
+            metadata.setDateUpload(new Date());
+            metadata = metadataRepository.save(metadata);
 
-                DocumentVersion version = new DocumentVersion();
-                version.setDocument(document);
-                version.setVersionNumber(document.getVersions().size() + 1);
-                version.setNomDoc(document.getNomDoc() + " v" + (document.getVersions().size() + 1));
-                version.setNomClient(document.getNomClient());
-                version.setNumClient(document.getNumClient());
-                version.setEmailClient(document.getEmailClient());
-                version.setDateCreation(new Date());
-                version.setDocumentStatus(document.getDocumentStatus());
-                version.setDepartement(document.getDepartement());
-                version.setMetadata(metadata);
-                version.setCommentaireRejet(document.getCommentaireRejet());
-                version.setUploadedBy(user);
-                documentVersionRepository.save(version);
+            DocumentVersion version = new DocumentVersion();
+            version.setDocument(document);
+            version.setVersionNumber(document.getVersions().size() + 1);
+            version.setNomDoc(document.getNomDoc() + " v" + (document.getVersions().size() + 1));
+            version.setNomClient(document.getNomClient());
+            version.setNumClient(document.getNumClient());
+            version.setEmailClient(document.getEmailClient());
+            version.setDateCreation(new Date());
+            version.setDocumentStatus(document.getDocumentStatus());
+            version.setDepartement(document.getDepartement());
+            version.setMetadata(metadata);
+            version.setCommentaireRejet(document.getCommentaireRejet());
+            version.setUploadedBy(user);
+            documentVersionRepository.save(version);
 
-                // Log audit event
-                auditLogService.logAction("CREATE_VERSION", "DocumentVersion", version.getId(), "Document version created", user);
-            }
-
-            return document;
-        } else {
-            throw new RuntimeException("Document not found with id " + documentId);
+            auditLogService.logAction("CREATE_VERSION", "DocumentVersion", version.getId(), "Document version created", user);
         }
+
+        return document;
     }
 }

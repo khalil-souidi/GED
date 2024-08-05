@@ -4,5 +4,4 @@ public enum EtapeWorkflow {
     DEPOT,
     TRAITEMENT,
     CLOTURE
-
 }

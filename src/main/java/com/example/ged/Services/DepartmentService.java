@@ -26,10 +26,11 @@ public class DepartmentService {
     }
 
     public Departement getDepartementByName(String name) {
-        return departementRepository.findByNom(name).orElseThrow(() -> new RuntimeException("Departement not found with name " + name));
+        return departementRepository.findByName(name).orElseThrow(() -> new RuntimeException("Departement not found with name " + name));
     }
 
     public void deleteDepartement(Long id) {
         departementRepository.deleteById(id);
     }
+
 }

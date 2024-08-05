@@ -3,7 +3,6 @@ package com.example.ged.Entities;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
 import javax.persistence.*;
 import java.util.Date;
 
@@ -20,8 +19,7 @@ public class Metadata {
     private String typeFichier;
     private String nomFichierOriginal;
     private Date dateUpload;
+
     @Lob
     private byte[] fichier;
-
-
 }

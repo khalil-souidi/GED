@@ -13,7 +13,7 @@ import java.util.List;
 public interface DocumentRepository extends JpaRepository<Document, Long> {
     List<Document> findByDocumentStatus(DocumentStatus documentStatus);
     List<Document> findByNomDocContainingIgnoreCase(String nomDoc);
-    List<Document> findByTypeDocContainingIgnoreCase(String typeDoc);
+    List<Document> findByTypeDoc_NomContainingIgnoreCase(String nom);  // Adjust to match the actual property name
     List<Document> findByCodeUnique(String codeUnique);
     List<Document> findByDateCreationBetween(Date startDate, Date endDate);
     List<Document> findByWorkflowEtapeCourante(EtapeWorkflow etapeWorkflow);

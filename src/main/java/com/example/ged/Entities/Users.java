@@ -14,15 +14,20 @@ import java.util.List;
 @AllArgsConstructor
 @Entity
 public class Users {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    private String username;
     private String email;
     private String prenom;
     private String nom;
+
     @ManyToOne
+    @JoinColumn(name = "departement_id")
     private Departement department;
+
     @JsonIgnore
-    @OneToMany(mappedBy = "Users", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "uploadedBy", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Document> documents = new ArrayList<>();
 }

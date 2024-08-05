@@ -41,45 +41,28 @@
 			<artifactId>spring-boot-starter-mail</artifactId>
 		</dependency>
 
-<!--		&lt;!&ndash; Security and OAuth dependencies &ndash;&gt;-->
-<!--		<dependency>-->
-<!--			<groupId>org.springframework.boot</groupId>-->
-<!--			<artifactId>spring-boot-starter-security</artifactId> &lt;!&ndash; Provides core Spring Security functionality &ndash;&gt;-->
-<!--		</dependency>-->
-<!--		<dependency>-->
-<!--			<groupId>org.springframework.boot</groupId>-->
-<!--			<artifactId>spring-boot-starter-oauth2-client</artifactId> &lt;!&ndash; Support for OAuth2/OIDC client &ndash;&gt;-->
-<!--		</dependency>-->
 
-<!--		&lt;!&ndash; Keycloak integration for securing the application &ndash;&gt;-->
-<!--		<dependency>-->
-<!--			<groupId>org.keycloak</groupId>-->
-<!--			<artifactId>keycloak-spring-boot-starter</artifactId> &lt;!&ndash; Keycloak Spring Boot starter for easy integration &ndash;&gt;-->
-<!--			<version>${keycloak.version}</version>-->
-<!--		</dependency>-->
-<!--		<dependency>-->
-<!--			<groupId>org.keycloak</groupId>-->
-<!--			<artifactId>keycloak-spring-security-adapter</artifactId> &lt;!&ndash; Integrates Keycloak with Spring Security &ndash;&gt;-->
-<!--			<version>${keycloak.version}</version>-->
-<!--		</dependency>-->
-
-<!--		<dependency>-->
-<!--			<groupId>org.springframework.boot</groupId>-->
-<!--			<artifactId>spring-boot-starter-security</artifactId>-->
-<!--		</dependency>-->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-security</artifactId>
+		</dependency>
 
 
-<!--		<dependency>-->
-<!--			<groupId>org.springframework.boot</groupId>-->
-<!--			<artifactId>spring-boot-starter-oauth2-resource-server</artifactId>-->
-<!--		</dependency>-->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-oauth2-resource-server</artifactId>
+		</dependency>
 
-<!--		<dependency>-->
-<!--			<groupId>org.springframework.boot</groupId>-->
-<!--			<artifactId>spring-boot-starter-oauth2-client</artifactId>-->
-<!--		</dependency>-->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-oauth2-client</artifactId>
+		</dependency>
 
-		<!-- Cloud -->
+		<dependency>
+			<groupId>org.keycloak</groupId>
+			<artifactId>keycloak-admin-client</artifactId>
+			<version>${keycloak.version}</version>
+		</dependency>
 
 
 		<!-- Database -->
