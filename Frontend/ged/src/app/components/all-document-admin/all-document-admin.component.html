@@ -1,0 +1,54 @@
+<div class="container">
+    <!-- Header -->
+    <div class="header">
+      <div class="logo">LOGO : RADEEMA</div>
+      <div class="title">GED</div>
+      <div class="user">M. Khalil</div>
+    </div>
+  
+    <!-- Document Sections -->
+    <div class="document-sections">
+      <div class="section">
+        <h3>EN COURS</h3>
+        <div *ngFor="let document of enCoursDocuments; let i = index" class="document">
+          <span>{{ document.id }} | {{ document.nomDoc }}</span>
+          <button (click)="approveDocument(document)">A</button>
+          <button (click)="refuseDocument(document)">R</button>
+        </div>
+        <div class="pagination">
+          <!-- Pagination logic here -->
+          <span>5 dossier page /pagination</span>
+        </div>
+      </div>
+  
+      <div class="section">
+        <h3>APPROUVÉ</h3>
+        <div *ngFor="let document of approuveDocuments; let i = index" class="document">
+          <span>{{ document.id }} | {{ document.nomDoc }}</span>
+          <button (click)="refuseDocument(document)">R</button>
+        </div>
+        <div class="pagination">
+          <!-- Pagination logic here -->
+          <span>5 dossier page /pagination</span>
+        </div>
+      </div>
+  
+      <div class="section">
+        <h3>REFUSÉ</h3>
+        <div *ngFor="let document of refuseDocuments; let i = index" class="document">
+          <span>{{ document.id }} | {{ document.nomDoc }}</span>
+          <button (click)="approveDocument(document)">A</button>
+        </div>
+        <div class="pagination">
+          <!-- Pagination logic here -->
+          <span>5 dossier page /pagination</span>
+        </div>
+      </div>
+    </div>
+  
+    <!-- Add Document Button -->
+    <div class="add-document">
+      <button (click)="navigateToAddDocument()">Ajouter un dossier</button>
+    </div>
+  </div>
+  

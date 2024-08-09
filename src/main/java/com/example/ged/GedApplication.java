@@ -10,5 +10,3 @@ public class GedApplication {
 		SpringApplication.run(GedApplication.class, args);
 	}
 }
-
-
