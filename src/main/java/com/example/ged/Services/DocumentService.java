@@ -26,6 +26,8 @@ public class DocumentService {
     private EmailService emailService;
     @Autowired
     private TypeDocumentService typeDocumentService;
+    @Autowired
+    private DepartementRepository departementRepository;
 
     public List<Document> getAllDocuments() {
         return documentRepository.findAll();
@@ -243,5 +245,10 @@ public class DocumentService {
         }
 
         return document;
+    }
+    public List<Document> getDocumentsByDepartement(String departementName) {
+        Departement departement = departementRepository.findByName(departementName)
+                .orElseThrow(() -> new RuntimeException("Departement not found with name " + departementName));
+        return documentRepository.findByDepartement(departement);
     }
 }

@@ -22,6 +22,7 @@ public class Users {
     private String email;
     private String prenom;
     private String nom;
+    private String role;
 
     @ManyToOne
     @JoinColumn(name = "departement_id")

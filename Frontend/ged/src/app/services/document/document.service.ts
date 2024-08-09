@@ -1,17 +1,17 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { Document } from '../models/Document.model';
-import { DocumentVersion } from '../models/DocumentVersion.model';
-import { Users } from '../models/Users.model';
+import { Users } from 'src/app/models/Users.model';
+import { Document } from 'src/app/models/Document.model';
+import { DocumentVersion } from 'src/app/models/DocumentVersion.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class DocumentService {
-  private apiUrl = 'http://localhost:91/api/documents'; // Replace with your actual API URL
+  private apiUrl = 'http://localhost:91/api/documents'; // API base URL
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
   getAllDocuments(): Observable<Document[]> {
     return this.http.get<Document[]>(`${this.apiUrl}`);
@@ -44,16 +44,19 @@ export class DocumentService {
       .set('comment', commentaireRejet);
     return this.http.put<Document>(`${this.apiUrl}/${id}/status`, null, { params });
   }
-  
 
   addDocumentVersion(documentId: number, file: File, user: Users): Observable<Document> {
     const formData = new FormData();
     formData.append('file', file);
     formData.append('user', JSON.stringify(user));
-    return this.http.post<Document>(`${this.apiUrl}/versions/${documentId}`, formData);
+    return this.http.post<Document>(`${this.apiUrl}/${documentId}/versions`, formData);
   }
 
   getDocumentVersions(documentId: number): Observable<DocumentVersion[]> {
-    return this.http.get<DocumentVersion[]>(`${this.apiUrl}/versions/${documentId}`);
+    return this.http.get<DocumentVersion[]>(`${this.apiUrl}/${documentId}/versions`);
+  }
+
+  createDocument(formData: FormData): Observable<Document> {
+    return this.http.post<Document>(this.apiUrl, formData);
   }
 }

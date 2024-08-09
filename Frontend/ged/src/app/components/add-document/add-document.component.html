@@ -1,0 +1,62 @@
+<div class="container">
+  <h2>Ajouter un Document</h2>
+  <form [formGroup]="documentForm" (ngSubmit)="onSubmit()">
+    
+    <!-- Type de Document -->
+    <div class="form-group">
+      <label for="typeDocNom">Type de Document</label>
+      <select id="typeDocNom" formControlName="typeDocNom" class="form-control">
+        <option *ngFor="let typeDoc of typeDocuments" [value]="typeDoc.nom">{{ typeDoc.nom }}</option>
+      </select>
+    </div>
+    
+    <!-- Other fields ... -->
+    
+    <div class="form-group">
+      <label for="nomDoc">Nom du Document</label>
+      <input id="nomDoc" formControlName="nomDoc" type="text" class="form-control" />
+    </div>
+
+    <!-- Nom du Client -->
+    <div class="form-group">
+      <label for="nomClient">Nom du Client</label>
+      <input id="nomClient" formControlName="nomClient" type="text" class="form-control" />
+    </div>
+    
+    <!-- Numéro du Client -->
+    <div class="form-group">
+      <label for="numClient">Numéro du Client</label>
+      <input id="numClient" formControlName="numClient" type="text" class="form-control" />
+    </div>
+    
+    <!-- Email du Client -->
+    <div class="form-group">
+      <label for="emailClient">Email du Client</label>
+      <input id="emailClient" formControlName="emailClient" type="email" class="form-control" />
+    </div>
+    
+    <!-- Département -->
+    <div class="form-group">
+      <label for="departementName">Département</label>
+      <select id="departementName" formControlName="departementName" class="form-control">
+        <option *ngFor="let department of departments" [value]="department.name">{{ department.name }}</option>
+      </select>
+    </div>
+    
+    <!-- Utilisateur -->
+    <div class="form-group">
+      <label for="userId">Utilisateur</label>
+      <select id="userId" formControlName="userId" class="form-control">
+        <option *ngFor="let user of users" [value]="user.id">{{ user.username }}</option>
+      </select>
+    </div>
+    
+    <!-- Fichier -->
+    <div class="form-group">
+      <label for="file">Fichier</label>
+      <input id="file" type="file" class="form-control" (change)="onFileSelected($event)" />
+    </div>
+    
+    <button type="submit" class="btn btn-primary">Ajouter</button>
+  </form>
+</div>

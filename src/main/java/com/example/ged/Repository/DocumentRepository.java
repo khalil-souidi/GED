@@ -1,5 +1,6 @@
 package com.example.ged.Repository;
 
+import com.example.ged.Entities.Departement;
 import com.example.ged.Entities.Document;
 import com.example.ged.Entities.DocumentStatus;
 import com.example.ged.Entities.EtapeWorkflow;
@@ -17,4 +18,6 @@ public interface DocumentRepository extends JpaRepository<Document, Long> {
     List<Document> findByCodeUnique(String codeUnique);
     List<Document> findByDateCreationBetween(Date startDate, Date endDate);
     List<Document> findByWorkflowEtapeCourante(EtapeWorkflow etapeWorkflow);
+    List<Document> findByDepartement(Departement departement);
+
 }

@@ -1,54 +1,59 @@
 <div class="container">
-    <!-- Header -->
-    <div class="header">
-      <div class="logo">LOGO : RADEEMA</div>
-      <div class="title">GED</div>
-      <div class="user">M. Khalil</div>
-    </div>
-  
-    <!-- Document Sections -->
-    <div class="document-sections">
-      <div class="section">
-        <h3>EN COURS</h3>
-        <div *ngFor="let document of enCoursDocuments; let i = index" class="document">
-          <span>{{ document.id }} | {{ document.nomDoc }}</span>
-          <button (click)="approveDocument(document)">A</button>
-          <button (click)="refuseDocument(document)">R</button>
-        </div>
-        <div class="pagination">
-          <!-- Pagination logic here -->
-          <span>5 dossier page /pagination</span>
-        </div>
+  <!-- Header -->
+  <div class="header">
+    <div class="logo">LOGO : RADEEMA</div>
+    <div class="title">GED</div>
+    <div class="user">M. Khalil</div>
+  </div>
+
+  <!-- Document Sections -->
+  <div class="document-sections">
+    <!-- EN COURS Section -->
+    <div class="section">
+      <h3>EN COURS</h3>
+      <div *ngFor="let document of getPaginatedDocuments(enCoursDocuments, currentPageEnCours)" class="document">
+        <span>{{ document.id }} | {{ document.nomDoc }}</span>
+        <button (click)="approveDocument(document)">A</button>
+        <button (click)="refuseDocument(document)">R</button>
       </div>
-  
-      <div class="section">
-        <h3>APPROUVÉ</h3>
-        <div *ngFor="let document of approuveDocuments; let i = index" class="document">
-          <span>{{ document.id }} | {{ document.nomDoc }}</span>
-          <button (click)="refuseDocument(document)">R</button>
-        </div>
-        <div class="pagination">
-          <!-- Pagination logic here -->
-          <span>5 dossier page /pagination</span>
-        </div>
-      </div>
-  
-      <div class="section">
-        <h3>REFUSÉ</h3>
-        <div *ngFor="let document of refuseDocuments; let i = index" class="document">
-          <span>{{ document.id }} | {{ document.nomDoc }}</span>
-          <button (click)="approveDocument(document)">A</button>
-        </div>
-        <div class="pagination">
-          <!-- Pagination logic here -->
-          <span>5 dossier page /pagination</span>
-        </div>
+      <div class="pagination">
+        <button (click)="prevPageEnCours()" [disabled]="currentPageEnCours === 1">Précédent</button>
+        <span>Page {{ currentPageEnCours }}</span>
+        <button (click)="nextPageEnCours()" [disabled]="getPaginatedDocuments(enCoursDocuments, currentPageEnCours).length < documentsPerPage">Suivant</button>
       </div>
     </div>
-  
-    <!-- Add Document Button -->
-    <div class="add-document">
-      <button (click)="navigateToAddDocument()">Ajouter un dossier</button>
+
+    <!-- APPROUVÉ Section -->
+    <div class="section">
+      <h3>APPROUVÉ</h3>
+      <div *ngFor="let document of getPaginatedDocuments(approuveDocuments, currentPageApprouve)" class="document">
+        <span>{{ document.id }} | {{ document.nomDoc }}</span>
+        <button (click)="refuseDocument(document)">R</button>
+      </div>
+      <div class="pagination">
+        <button (click)="prevPageApprouve()" [disabled]="currentPageApprouve === 1">Précédent</button>
+        <span>Page {{ currentPageApprouve }}</span>
+        <button (click)="nextPageApprouve()" [disabled]="getPaginatedDocuments(approuveDocuments, currentPageApprouve).length < documentsPerPage">Suivant</button>
+      </div>
+    </div>
+
+    <!-- REFUSÉ Section -->
+    <div class="section">
+      <h3>REFUSÉ</h3>
+      <div *ngFor="let document of getPaginatedDocuments(refuseDocuments, currentPageRefuse)" class="document">
+        <span>{{ document.id }} | {{ document.nomDoc }}</span>
+        <button (click)="approveDocument(document)">A</button>
+      </div>
+      <div class="pagination">
+        <button (click)="prevPageRefuse()" [disabled]="currentPageRefuse === 1">Précédent</button>
+        <span>Page {{ currentPageRefuse }}</span>
+        <button (click)="nextPageRefuse()" [disabled]="getPaginatedDocuments(refuseDocuments, currentPageRefuse).length < documentsPerPage">Suivant</button>
+      </div>
     </div>
   </div>
-  
+
+  <!-- Add Document Button -->
+  <div class="add-document">
+    <button (click)="navigateToAddDocument()">Ajouter un dossier</button>
+  </div>
+</div>

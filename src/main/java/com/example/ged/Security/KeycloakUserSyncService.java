@@ -31,7 +31,7 @@
 //    @Autowired
 //    private RestTemplate restTemplate;
 //
-//    @Scheduled(fixedRate = 60000) // Adjust the rate as needed (3600000 ms = 1 hour)
+//    @Scheduled(fixedRate = 60000)
 //    public void syncUsersFromKeycloak() {
 //        String keycloakUrl = "http://localhost:8180/realms/dev-Ged/protocol/openid-connect/token";
 //        String clientId = "Ged-app";
@@ -94,18 +94,36 @@
 //                    }
 //                }
 //
+//                // Fetch user's roles
+//                String rolesUrl = "http://localhost:8180/admin/realms/dev-Ged/users/" + userId + "/role-mappings/realm";
+//                ResponseEntity<List> rolesResponse = restTemplate.exchange(rolesUrl, HttpMethod.GET, authRequest, List.class);
+//                List<Map<String, Object>> roles = rolesResponse.getBody();
+//                StringBuilder rolesBuilder = new StringBuilder();
+//
+//                if (roles != null && !roles.isEmpty()) {
+//                    for (Map<String, Object> role : roles) {
+//                        String roleName = (String) role.get("name");
+//                        if ("user".equals(roleName) || "admin".equals(roleName)) {
+//                            rolesBuilder.append(roleName).append(",");
+//                        }
+//                    }
+//                }
+//
+//                // Remove the trailing comma
+//                String rolesString = rolesBuilder.length() > 0 ? rolesBuilder.substring(0, rolesBuilder.length() - 1) : "";
+//
 //                Users user = usersRepository.findByEmail(email).orElse(new Users());
 //                user.setUsername(username);
 //                user.setEmail(email);
 //                user.setPrenom(firstName);
 //                user.setNom(lastName);
 //                user.setDepartment(departement);
+//                user.setRole(rolesString);
 //
 //                usersRepository.save(user);
 //            }
 //        } catch (Exception e) {
 //            e.printStackTrace();
-//            // Handle the exception as needed, possibly log it
 //        }
 //    }
 //}
