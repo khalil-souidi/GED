@@ -31,8 +31,6 @@
         <span>
           <a [routerLink]="['/document-detail', document.id]">{{ document.nomDoc }}</a>
         </span>
-        <span>{{ document.nomDoc }} | {{ document.nomClient }}</span>
-        <button (click)="refuseDocument(document)">R</button>
       </div>
       <div class="pagination">
         <button (click)="prevPageApprouve()" [disabled]="currentPageApprouve === 1">Précédent</button>
@@ -48,8 +46,6 @@
         <span>
           <a [routerLink]="['/document-detail', document.id]">{{ document.nomDoc }}</a>
         </span>
-        <span>{{ document.nomDoc }} | {{ document.nomClient }}</span>
-        <button (click)="approveDocument(document)">A</button>
       </div>
       <div class="pagination">
         <button (click)="prevPageRefuse()" [disabled]="currentPageRefuse === 1">Précédent</button>

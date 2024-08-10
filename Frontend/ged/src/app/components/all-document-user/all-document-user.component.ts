@@ -23,7 +23,7 @@ export class AllDocumentUserComponent implements OnInit {
   }
 
   loadDocuments(): void {
-    const department = 'RH';
+    const department = 'Rh';
 
     // Fetch documents in "EnTraitement" stage
     this.documentService.getDocumentsByDepartmentAndWorkflow(department, 'TRAITEMENT').subscribe({

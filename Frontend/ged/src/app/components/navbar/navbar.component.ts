@@ -15,7 +15,6 @@ export class NavbarComponent {
   }
 
   logout(): void {
-    // Add your logout logic here
     console.log('Logging out...');
     this.router.navigate(['/login']);
   }
