@@ -12,10 +12,10 @@ import { AllDocumentAdminComponent } from './components/all-document-admin/all-d
 import { DocumentDetailComponent } from './components/document-detail/document-detail.component';
 import { AllDocumentUserComponent } from './components/all-document-user/all-document-user.component';
 import { ArchiveComponent } from './components/archive/archive.component';
-import { NavbarComponent } from './components/navbar/navbar.component';
 import { StatistiqueComponent } from './components/statistique/statistique.component';
 import { AddDocumentComponent } from './components/add-document/add-document.component';
 import { ConfirmationPopupComponent } from './components/confirmation-popup/confirmation-popup.component';
+import { HomeComponent } from './components/home/home.component';
 
 @NgModule({
   declarations: [
@@ -26,8 +26,8 @@ import { ConfirmationPopupComponent } from './components/confirmation-popup/conf
     ConfirmationPopupComponent,
     AllDocumentUserComponent,
     ArchiveComponent,
-    NavbarComponent,
     StatistiqueComponent,
+    HomeComponent,
   ],
   imports: [
     BrowserModule,

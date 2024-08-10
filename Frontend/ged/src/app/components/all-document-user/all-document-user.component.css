@@ -1,58 +1,123 @@
 .container {
-    width: 100%;
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 20px;
-  }
-  
-  .header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 30px;
-  }
-  
-  .logo, .title, .user {
-    font-size: 20px;
-    font-weight: bold;
-  }
-  
-  .title {
-    text-align: center;
-    flex-grow: 1;
-  }
-  
-  .document-sections {
-    display: flex;
-    justify-content: space-between;
-    gap: 20px;
-  }
-  
-  .section {
-    flex: 1;
-    padding: 20px;
-    background-color: #f8f9fa;
-    border-radius: 10px;
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-  }
-  
-  .section h3 {
-    text-align: center;
-    margin-bottom: 20px;
-  }
-  
-  .document {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 10px;
-    padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    background-color: #ffffff;
-  }
-  
-  .document button {
-    margin-left: 10px;
-  }
-  
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #ffffff;
+  border-radius: 15px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+}
+
+.logo, .title, .user {
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.title {
+  text-align: center;
+  flex-grow: 1;
+}
+
+.document-sections {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.section {
+  flex: 1;
+  padding: 20px;
+  background-color: #f8f9fa;
+  border-radius: 10px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+}
+
+.section h3 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.document {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+  padding: 15px;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #5e88aa, #b9e0f3);
+  color: white;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  transition: transform 0.3s ease-in-out;
+}
+
+.document:hover {
+  transform: scale(1.02);
+}
+
+.document button {
+  margin-left: 10px;
+  padding: 8px 15px;
+  border: none;
+  border-radius: 5px;
+  background-color: #ff4d4d; /* Red background */
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.document button:hover {
+  background-color: #e60000; /* Darker red on hover */
+  transform: scale(1.05);
+}
+
+.document-link {
+  text-decoration: none;
+  color: inherit;
+  display: inline-block;
+  width: calc(100% - 100px); /* Adjust the width considering the button */
+}
+
+.document-link:hover {
+  /* Remove underline on hover */
+  text-decoration: none;
+  color: #ffffff; /* Optional: Change color on hover */
+}
+
+.pagination {
+  text-align: center;
+  margin-top: 30px;
+}
+
+.pagination button {
+  padding: 10px 15px;
+  border-radius: 5px;
+  border: none;
+  background-color: #0077b6;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  font-size: 16px;
+}
+
+.pagination button:hover {
+  background-color: #005f8a;
+}
+
+.pagination span {
+  font-size: 18px;
+  color: #0077b6;
+  margin: 0 15px;
+}
+h1 {
+  font-size: 36px;
+  margin-bottom: 30px;
+  text-align: center; /* Ensure the h1 is centered */
+  color: #0077b6;
+}

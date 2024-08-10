@@ -1,9 +1,0 @@
-.app-container {
-    display: flex;
-  }
-  
-  .content {
-    margin-left: 200px; /* Adjust based on the width of your navbar */
-    padding: 20px;
-    width: 100%;
-  }  

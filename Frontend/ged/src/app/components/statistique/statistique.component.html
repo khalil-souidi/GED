@@ -1,5 +1,12 @@
 <div class="statistics-container">
+  <!-- Logo Section -->
+  <div class="logo-section">
+    <span class="material-icons logo" (click)="navigateTo('home')">home</span>
+    <span class="material-icons logo" (click)="navigateTo('archive')">archive</span>
+  </div>
+
   <h2>Document Type Statistics</h2>
+  
   <ngx-charts-pie-chart
     [view]="view"
     [results]="documentTypeData"

@@ -1,42 +1,122 @@
-.container {
-    width: 100%;
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 20px;
-  }
-  
-  .search-bar {
-    display: flex;
-    gap: 10px;
-    margin-bottom: 20px;
-  }
-  
-  .search-bar input, .search-bar select {
-    padding: 5px;
-  }
-  
-  .document-list {
-    margin-top: 20px;
-  }
-  
-  .document {
-    padding: 10px;
-    margin-bottom: 10px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-  }
-  
-  .pagination {
-    text-align: center;
-    margin-top: 20px;
-  }
-  
-  .pagination button {
-    padding: 5px 10px;
-    margin: 0 5px;
-  }
-  
-  .pagination span {
-    font-weight: bold;
-  }
-  
+@import url('https://fonts.googleapis.com/icon?family=Material+Icons');
+
+.archive-container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 40px 20px;
+  background-color: #ffffff;
+  border-radius: 15px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  position: relative;
+}
+
+.logo-section {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.logo {
+  font-size: 40px;
+  color: #0077b6;
+  cursor: pointer;
+  transition: transform 0.3s ease-in-out, color 0.3s ease-in-out;
+}
+
+.logo:hover {
+  transform: scale(1.2);
+  color: #005f8a;
+}
+
+.archive-container h1 {
+  text-align: center;
+  margin-bottom: 30px;
+  font-size: 36px;
+  color: #0077b6;
+}
+
+.search-bar {
+  display: flex;
+  gap: 15px;
+  justify-content: center;
+  margin-bottom: 30px;
+}
+
+.search-bar input, .search-bar select {
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  font-size: 16px;
+}
+
+.search-bar button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  background-color: #0077b6;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  font-size: 16px;
+}
+
+.search-bar button:hover {
+  background-color: #005f8a;
+}
+
+.document-list {
+  margin-top: 20px;
+}
+
+.document {
+  padding: 15px;
+  margin-bottom: 15px;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #5e88aa, #b9e0f3);
+  color: white;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  transition: transform 0.3s ease-in-out;
+}
+
+.document:hover {
+  transform: scale(1.02);
+}
+
+.pagination {
+  text-align: center;
+  margin-top: 30px;
+}
+
+.pagination button {
+  padding: 10px 15px;
+  border-radius: 5px;
+  border: none;
+  background-color: #0077b6;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  font-size: 16px;
+}
+
+.pagination button:hover {
+  background-color: #005f8a;
+}
+
+.pagination span {
+  font-size: 18px;
+  color: #0077b6;
+  margin: 0 15px;
+}
+
+.document a {
+  color: inherit; /* Maintain the text color */
+  text-decoration: none; /* Remove underline */
+  display: block; /* Make the whole document block clickable */
+  width: 100%;
+  height: 100%;
+}

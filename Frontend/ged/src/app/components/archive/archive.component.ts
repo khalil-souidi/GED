@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { DocumentService } from 'src/app/services/document/document.service';
 import { Document } from 'src/app/models/Document.model';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-archive',
@@ -18,7 +19,7 @@ export class ArchiveComponent implements OnInit {
   searchDate: string = '';
   sort: string = 'desc';  
 
-  constructor(private documentService: DocumentService) {}
+  constructor(private documentService: DocumentService,private router: Router) {}
 
   ngOnInit(): void {
     this.loadArchivedDocuments();
@@ -54,5 +55,8 @@ export class ArchiveComponent implements OnInit {
     if (this.currentPage > 1) {
       this.currentPage--;
     }
+  }
+  navigateTo(route: string): void {
+    this.router.navigate([`/${route}`]);
   }
 }

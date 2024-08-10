@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { LegendPosition } from '@swimlane/ngx-charts';
+import { Router } from '@angular/router';
 import { DocumentService } from 'src/app/services/document/document.service';
 
 @Component({
@@ -14,7 +15,7 @@ export class StatistiqueComponent implements OnInit {
   showLegend: boolean = true;
   legendPosition: LegendPosition = LegendPosition.Right;
 
-  constructor(private documentService: DocumentService) { }
+  constructor(private documentService: DocumentService, private router: Router) { }
 
   ngOnInit(): void {
     this.loadStatistics();
@@ -30,6 +31,10 @@ export class StatistiqueComponent implements OnInit {
       },
       error: (err) => console.error('Error loading statistics', err)
     });
+  }
+
+  navigateTo(route: string): void {
+    this.router.navigate([route]);
   }
 
 }

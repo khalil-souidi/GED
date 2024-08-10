@@ -1,29 +1,37 @@
-<div class="container">
-    <h1>Archive</h1>
-  
-    <!-- Search Bar -->
-    <div class="search-bar">
-      <input type="text" placeholder="Search by CodeUnique" [(ngModel)]="searchCodeUnique">
-      <input type="text" placeholder="Search by Type" [(ngModel)]="searchType">
-      <select [(ngModel)]="sort">
-        <option value="desc">Date: Newest First</option>
-        <option value="asc">Date: Oldest First</option>
-      </select>
-      <button (click)="onSearch()">Search</button>
-    </div>
-  
-    <!-- Document List -->
-    <div class="document-list">
-      <div *ngFor="let document of getPaginatedDocuments()" class="document">
-        <span>{{ document.id }} | {{ document.nomDoc }} | {{ document.nomClient }}</span>
-      </div>
-    </div>
-  
-    <!-- Pagination Controls -->
-    <div class="pagination">
-      <button (click)="prevPage()" [disabled]="currentPage === 1">Previous</button>
-      <span>Page {{ currentPage }}</span>
-      <button (click)="nextPage()" [disabled]="currentPage * documentsPerPage >= archivedDocuments.length">Next</button>
-    </div>
+<div class="archive-container">
+  <!-- Logo Section -->
+  <div class="logo-section">
+    <span class="material-icons logo" (click)="navigateTo('home')">home</span>
+    <span class="material-icons logo" (click)="navigateTo('statistique')">bar_chart</span>
   </div>
   
+
+  <h1>Archive</h1>
+
+  <!-- Search Bar -->
+  <div class="search-bar">
+    <input type="text" placeholder="Search by CodeUnique" [(ngModel)]="searchCodeUnique">
+    <input type="text" placeholder="Search by Type" [(ngModel)]="searchType">
+    <select [(ngModel)]="sort">
+      <option value="desc">Date: Newest First</option>
+      <option value="asc">Date: Oldest First</option>
+    </select>
+    <button (click)="onSearch()">Search</button>
+  </div>
+
+  <!-- Document List -->
+  <div class="document-list">
+    <div *ngFor="let document of getPaginatedDocuments()" class="document">
+      <a [routerLink]="['/document-detail', document.id]">
+        <span>{{ document.dateCreation | date:'dd/MM/yy' }} | {{ document.nomDoc }} | {{ document.nomClient }}</span>
+      </a>
+    </div>
+  </div>
+
+  <!-- Pagination Controls -->
+  <div class="pagination">
+    <button (click)="prevPage()" [disabled]="currentPage === 1">Previous</button>
+    <span>Page {{ currentPage }}</span>
+    <button (click)="nextPage()" [disabled]="currentPage * documentsPerPage >= archivedDocuments.length">Next</button>
+  </div>
+</div>

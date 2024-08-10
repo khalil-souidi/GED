@@ -264,13 +264,16 @@ public class DocumentService {
         return documentRepository.findByArchivedTrue();
     }
     public List<DocumentTypeStat> getDocumentTypeStatistics() {
-        List<Document> documents = documentRepository.findAll();
+        List<Document> archivedDocuments = documentRepository.findAll().stream()
+                .filter(Document::isArchived) // Filter only archived documents
+                .collect(Collectors.toList());
 
-        return documents.stream()
+        return archivedDocuments.stream()
                 .collect(Collectors.groupingBy(doc -> doc.getTypeDoc().getNom(), Collectors.counting()))
                 .entrySet()
                 .stream()
                 .map(entry -> new DocumentTypeStat(entry.getKey(), entry.getValue()))
                 .collect(Collectors.toList());
     }
+
 }

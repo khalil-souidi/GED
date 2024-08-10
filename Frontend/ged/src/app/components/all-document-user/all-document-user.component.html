@@ -1,9 +1,4 @@
 <div class="container">
-  <!-- Header -->
-  <div class="header">
-    <div class="title">GED</div>
-    <div class="user">M. Khalil</div>
-  </div>
   <h1>RH Documents</h1>
   <!-- Document Sections -->
   <div class="document-sections">
@@ -11,8 +6,10 @@
     <div class="section">
       <h3>Documents En Traitement</h3>
       <div *ngFor="let document of getPaginatedEnTraitement()" class="document">
-        <span>{{ document.nomDoc }} - {{ document.nomClient }}</span>
-        <button class="btn btn-primary btn-sm" (click)="closeWorkflow(document.id)">Clôture</button>
+        <a [routerLink]="['/document-detail', document.id]" class="document-link">
+          <span>{{ document.nomDoc }} - {{ document.nomClient }}</span>
+        </a>
+        <button (click)="closeWorkflow(document.id)">Clôture</button> <!-- Red button -->
       </div>
       
       <div class="pagination">
@@ -26,7 +23,9 @@
     <div class="section">
       <h3>Documents Clôturés</h3>
       <div *ngFor="let document of getPaginatedCloture()" class="document">
-        <span>{{ document.nomDoc }} - {{ document.nomClient }}</span>
+        <a [routerLink]="['/document-detail', document.id]" class="document-link">
+          <span>{{ document.nomDoc }} - {{ document.nomClient }}</span>
+        </a>
       </div>
       <div class="pagination">
         <button (click)="prevPageCloture()" [disabled]="currentPageCloture === 1">Précédent</button>
