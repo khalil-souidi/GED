@@ -31,14 +31,17 @@ export class DocumentDetailComponent implements OnInit {
   }
 
   downloadDocument() {
-    const url = `http://your-backend-url/api/documents/${this.documentId}/file`; // Replace with your actual URL
-    this.http.get(url, { responseType: 'blob' }).subscribe((blob) => {
-      const downloadUrl = window.URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = downloadUrl;
-      a.download = ''; // Set the file name if needed
-      a.click();
-      window.URL.revokeObjectURL(downloadUrl);
+    const url = `http://localhost:91/api/documents/${this.document?.id}/file`; // Adjust the URL to match your backend
+    this.http.get(url, { responseType: 'blob' }).subscribe({
+      next: (blob) => {
+        const downloadUrl = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = downloadUrl;
+        a.download = this.document?.metadata.nomFichierOriginal || 'download'; // Set the file name from metadata
+        a.click();
+        window.URL.revokeObjectURL(downloadUrl);
+      },
+      error: (err) => console.error('Error downloading file', err)
     });
   }
 

@@ -1,13 +1,20 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
-import { MatDialogModule } from '@angular/material/dialog';
 import { AppComponent } from './app.component';
-import { AllDocumentAdminComponent } from './components/all-document-admin/all-document-admin.component';
 import { HttpClientModule } from '@angular/common/http';
-import { AddDocumentComponent } from './components/add-document/add-document.component';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { NgxChartsModule } from '@swimlane/ngx-charts';
+import { MatDialogModule } from '@angular/material/dialog';
+
+// Import your components
+import { AllDocumentAdminComponent } from './components/all-document-admin/all-document-admin.component';
 import { DocumentDetailComponent } from './components/document-detail/document-detail.component';
+import { AllDocumentUserComponent } from './components/all-document-user/all-document-user.component';
+import { ArchiveComponent } from './components/archive/archive.component';
+import { NavbarComponent } from './components/navbar/navbar.component';
+import { StatistiqueComponent } from './components/statistique/statistique.component';
+import { AddDocumentComponent } from './components/add-document/add-document.component';
 import { ConfirmationPopupComponent } from './components/confirmation-popup/confirmation-popup.component';
 
 @NgModule({
@@ -16,14 +23,20 @@ import { ConfirmationPopupComponent } from './components/confirmation-popup/conf
     AllDocumentAdminComponent,
     AddDocumentComponent,
     DocumentDetailComponent,
-    ConfirmationPopupComponent  
+    ConfirmationPopupComponent,
+    AllDocumentUserComponent,
+    ArchiveComponent,
+    NavbarComponent,
+    StatistiqueComponent,
   ],
   imports: [
     BrowserModule,
-    MatDialogModule,
-    AppRoutingModule,  
+    AppRoutingModule,
+    FormsModule,
     ReactiveFormsModule,
-    HttpClientModule  
+    HttpClientModule,
+    NgxChartsModule,
+    MatDialogModule
   ],
   providers: [],
   bootstrap: [AppComponent]

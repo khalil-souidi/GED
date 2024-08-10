@@ -1,0 +1,42 @@
+.container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+  }
+  
+  .search-bar {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+  
+  .search-bar input, .search-bar select {
+    padding: 5px;
+  }
+  
+  .document-list {
+    margin-top: 20px;
+  }
+  
+  .document {
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+  }
+  
+  .pagination {
+    text-align: center;
+    margin-top: 20px;
+  }
+  
+  .pagination button {
+    padding: 5px 10px;
+    margin: 0 5px;
+  }
+  
+  .pagination span {
+    font-weight: bold;
+  }
+  

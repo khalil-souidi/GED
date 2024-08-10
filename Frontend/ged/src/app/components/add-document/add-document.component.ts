@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { DocumentService } from 'src/app/services/document/document.service';
@@ -90,13 +90,14 @@ export class AddDocumentComponent implements OnInit {
     formData.append('userId', this.documentForm.get('userId')?.value);
     formData.append('file', this.selectedFile);
 
-    this.documentService.createDocument(formData).subscribe({
+    this.documentService.saveDocument(formData).subscribe({
       next: (response) => {
         this.dialog.open(ConfirmationPopupComponent, {
           data: {
             dossierNumber: response.codeUnique,
           }
         });
+        this.router.navigate(['/all-document-admin']);
       },
       error: (err: any) => console.error('Error creating document', err)
     });

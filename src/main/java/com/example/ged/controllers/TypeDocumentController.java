@@ -20,4 +20,5 @@ public class TypeDocumentController {
         List<TypeDocument> typeDocuments = typeDocumentService.getAllTypeDocuments();
         return ResponseEntity.ok(typeDocuments);
     }
+
 }

@@ -49,12 +49,16 @@
         }
 
         @GetMapping("/documents/search")
-        public ResponseEntity<List<Document>> searchDocuments(@RequestParam(required = false) String name,
-                                                              @RequestParam(required = false) String type,
-                                                              @RequestParam(required = false) String codeUnique,
-                                                              @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") Date startDate,
-                                                              @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") Date endDate) {
+        public ResponseEntity<List<Document>> searchDocuments(
+                @RequestParam(required = false) String name,
+                @RequestParam(required = false) String type,
+                @RequestParam(required = false) String codeUnique,
+                @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") Date startDate,
+                @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") Date endDate,
+                @RequestParam(required = false) String sort) {
+
             List<Document> documents;
+
             if (name != null) {
                 documents = documentService.searchDocumentsByName(name);
             } else if (type != null) {
@@ -66,6 +70,13 @@
             } else {
                 documents = documentService.getAllDocuments();
             }
+
+            if ("desc".equalsIgnoreCase(sort)) {
+                documents.sort((d1, d2) -> d2.getDateCreation().compareTo(d1.getDateCreation()));
+            } else {
+                documents.sort((d1, d2) -> d1.getDateCreation().compareTo(d2.getDateCreation()));
+            }
+
             return ResponseEntity.ok(documents);
         }
 
@@ -168,4 +179,23 @@
             documentService.WorkflowToCloture(id);
             return ResponseEntity.noContent().build();
         }
+
+        @GetMapping("/documents/department/{departmentName}/workflow/{etapeWorkflow}")
+        public ResponseEntity<List<Document>> getDocumentsByDepartmentAndWorkflow(
+                @PathVariable String departmentName,
+                @PathVariable EtapeWorkflow etapeWorkflow) {
+            List<Document> documents = documentService.getDocumentsByDepartmentAndWorkflow(departmentName, etapeWorkflow);
+            return ResponseEntity.ok(documents);
+        }
+        @GetMapping("/documents/archived")
+        public List<Document> getArchivedDocuments() {
+            return documentService.getArchivedDocuments();
+        }
+
+        @GetMapping("/documents/statistics")
+        public ResponseEntity<List<DocumentTypeStat>> getDocumentTypeStatistics() {
+            List<DocumentTypeStat> stats = documentService.getDocumentTypeStatistics();
+            return ResponseEntity.ok(stats);
+        }
+
     }

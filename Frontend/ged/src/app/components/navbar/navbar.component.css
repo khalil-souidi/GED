@@ -1,0 +1,69 @@
+.navbar {
+    width: 200px;
+    background-color: #343a40;
+    color: white;
+    height: 100vh;
+    position: fixed;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px 0;
+  }
+  
+  .navbar-header h3 {
+    margin: 0;
+    margin-bottom: 30px;
+    font-size: 24px;
+    font-weight: bold;
+  }
+  
+  .navbar-menu {
+    list-style-type: none;
+    padding: 0;
+    width: 100%;
+    flex-grow: 0.8; /* Adjusted this to make room for the logout button */
+  }
+  
+  .navbar-menu li {
+    margin-bottom: 10px;
+    width: 100%;
+    text-align: center;
+  }
+  
+  .navbar-menu li button {
+    width: 80%;
+    padding: 8px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+  }
+  
+  .navbar-menu li button:hover {
+    background-color: #0056b3;
+  }
+  
+  .navbar-footer {
+    margin-top: 20px; /* Adjust this to move the button up */
+    width: 100%;
+    text-align: center;
+    padding: 10px 0;
+  }
+  
+  .logout-button {
+    width: 80%;
+    padding: 8px;
+    background-color: #dc3545;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+  }
+  
+  .logout-button:hover {
+    background-color: #c82333;
+  }
+  

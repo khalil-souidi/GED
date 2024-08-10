@@ -5,10 +5,14 @@ import com.example.ged.Repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-
+import com.example.ged.Entities.Document;
+import com.example.ged.Entities.DocumentTypeStat;
+import com.example.ged.Repository.DocumentRepository;
 import java.io.IOException;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 public class DocumentService {
 
@@ -54,7 +58,7 @@ public class DocumentService {
     }
 
     public List<Document> getDocumentsByWorkflow(EtapeWorkflow etapeWorkflow) {
-        return documentRepository.findByWorkflowEtapeCourante(etapeWorkflow);
+        return documentRepository.findByWorkflow_EtapeCourante(etapeWorkflow);
     }
 
     public Document saveDocument(Document document, MultipartFile file, Users user, String typeDocNom) throws IOException {
@@ -246,9 +250,27 @@ public class DocumentService {
 
         return document;
     }
+
     public List<Document> getDocumentsByDepartement(String departementName) {
         Departement departement = departementRepository.findByName(departementName)
                 .orElseThrow(() -> new RuntimeException("Departement not found with name " + departementName));
         return documentRepository.findByDepartement(departement);
+    }
+
+    public List<Document> getDocumentsByDepartmentAndWorkflow(String departmentName, EtapeWorkflow etapeWorkflow) {
+        return documentRepository.findByDepartement_NameAndWorkflow_EtapeCourante(departmentName, etapeWorkflow);
+    }
+    public List<Document> getArchivedDocuments() {
+        return documentRepository.findByArchivedTrue();
+    }
+    public List<DocumentTypeStat> getDocumentTypeStatistics() {
+        List<Document> documents = documentRepository.findAll();
+
+        return documents.stream()
+                .collect(Collectors.groupingBy(doc -> doc.getTypeDoc().getNom(), Collectors.counting()))
+                .entrySet()
+                .stream()
+                .map(entry -> new DocumentTypeStat(entry.getKey(), entry.getValue()))
+                .collect(Collectors.toList());
     }
 }

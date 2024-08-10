@@ -1,0 +1,13 @@
+.statistics-container {
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+h2 {
+  margin-bottom: 20px;
+}
+.statistics-container > div {
+  display: block;
+}
