@@ -1,13 +1,7 @@
+<app-header></app-header>
+<br><br>
 <div class="archive-container">
-  <!-- Logo Section -->
-  <div class="logo-section">
-    <span class="material-icons logo" (click)="navigateTo('home')">home</span>
-    <span class="material-icons logo" (click)="navigateTo('statistique')">bar_chart</span>
-  </div>
-  
-
   <h1>Archive</h1>
-
   <!-- Search Bar -->
   <div class="search-bar">
     <input type="text" placeholder="Search by CodeUnique" [(ngModel)]="searchCodeUnique">
@@ -18,7 +12,11 @@
     </select>
     <button (click)="onSearch()">Search</button>
   </div>
-
+ <!-- Logo Section -->
+ <div class="logo-section">
+  <span class="material-icons logo" (click)="navigateTo('home')">home</span>
+  <span class="material-icons logo" (click)="navigateTo('statistique')">bar_chart</span>
+</div>
   <!-- Document List -->
   <div class="document-list">
     <div *ngFor="let document of getPaginatedDocuments()" class="document">

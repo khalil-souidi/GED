@@ -16,6 +16,7 @@ import { StatistiqueComponent } from './components/statistique/statistique.compo
 import { AddDocumentComponent } from './components/add-document/add-document.component';
 import { ConfirmationPopupComponent } from './components/confirmation-popup/confirmation-popup.component';
 import { HomeComponent } from './components/home/home.component';
+import { HeaderComponent } from './components/header/header.component';
 
 @NgModule({
   declarations: [
@@ -28,6 +29,7 @@ import { HomeComponent } from './components/home/home.component';
     ArchiveComponent,
     StatistiqueComponent,
     HomeComponent,
+    HeaderComponent,
   ],
   imports: [
     BrowserModule,
