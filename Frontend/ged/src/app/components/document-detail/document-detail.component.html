@@ -1,0 +1,21 @@
+<div *ngIf="document">
+    <h2>Document Details: {{ document.nomDoc }}</h2>
+    <p><strong>Client Name:</strong> {{ document.nomClient }}</p>
+    <p><strong>Client Number:</strong> {{ document.numClient }}</p>
+    <p><strong>Email:</strong> {{ document.emailClient }}</p>
+    <p><strong>Department:</strong> {{ document.departement.name }}</p>
+    <p><strong>Document Type:</strong> {{ document.typeDoc.nom }}</p>
+    <p><strong>Status:</strong> {{ document.documentStatus }}</p>
+    <p><strong>Date Created:</strong> {{ document.dateCreation | date }}</p>
+    <p><strong>Comments:</strong> {{ document.commentaireRejet }}</p>
+
+
+    <button (click)="downloadDocument()">Download Document</button>
+
+
+    
+    <!-- Add any other fields that you want to display -->
+    
+    <button (click)="goBack()">Back to Documents</button>
+  </div>
+  

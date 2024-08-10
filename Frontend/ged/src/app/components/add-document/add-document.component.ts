@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { DocumentService } from 'src/app/services/document/document.service';
 import { DepartmentService } from 'src/app/services/department/department.service';
@@ -8,6 +9,7 @@ import { Departement } from 'src/app/models/Departement.model';
 import { Users } from 'src/app/models/Users.model';
 import { Router } from '@angular/router';
 import { TypeDocument } from 'src/app/models/type-document.model';
+import { ConfirmationPopupComponent } from '../confirmation-popup/confirmation-popup.component';
 
 @Component({
   selector: 'app-add-document',
@@ -27,7 +29,8 @@ export class AddDocumentComponent implements OnInit {
     private departmentService: DepartmentService,
     private userService: UserService,
     private typeDocumentService: TypeDocumentService,
-    private router: Router
+    private router: Router,
+    private dialog: MatDialog
   ) {
     this.documentForm = this.fb.group({
       typeDocNom: ['', Validators.required],
@@ -36,8 +39,7 @@ export class AddDocumentComponent implements OnInit {
       numClient: ['', Validators.required],
       emailClient: ['', [Validators.required, Validators.email]],
       departementName: ['', Validators.required],
-      userId: ['', Validators.required],
-      file: [null, Validators.required]
+      userId: ['', Validators.required]
     });
   }
 
@@ -73,13 +75,11 @@ export class AddDocumentComponent implements OnInit {
   }
 
   onSubmit(): void {
-    console.log('Form submitted');  // Debugging statement
-    
     if (this.documentForm.invalid || !this.selectedFile) {
-      console.log('Form is invalid or no file selected');  // Debugging statement
+      console.log('Form is invalid or no file selected');
       return;
     }
-  
+
     const formData = new FormData();
     formData.append('typeDocNom', this.documentForm.get('typeDocNom')?.value);
     formData.append('nomDoc', this.documentForm.get('nomDoc')?.value);
@@ -89,15 +89,16 @@ export class AddDocumentComponent implements OnInit {
     formData.append('departementName', this.documentForm.get('departementName')?.value);
     formData.append('userId', this.documentForm.get('userId')?.value);
     formData.append('file', this.selectedFile);
-  
-    console.log('Form data being sent:', formData);  // Debugging statement
-  
+
     this.documentService.createDocument(formData).subscribe({
-      next: () => {
-        console.log('Document successfully created');  // Debugging statement
-        this.router.navigate(['/all-document-admin']);
+      next: (response) => {
+        this.dialog.open(ConfirmationPopupComponent, {
+          data: {
+            dossierNumber: response.codeUnique,
+          }
+        });
       },
-      error: (err: any) => console.error('Erreur lors de la création du document', err)
+      error: (err: any) => console.error('Error creating document', err)
     });
   }
-}  
+}

@@ -8,10 +8,13 @@ import { DocumentVersion } from 'src/app/models/DocumentVersion.model';
 @Injectable({
   providedIn: 'root'
 })
+
 export class DocumentService {
   private apiUrl = 'http://localhost:91/api/documents'; // API base URL
 
-  constructor(private http: HttpClient) {}
+  constructor(
+    private http: HttpClient
+  ) {}
 
   getAllDocuments(): Observable<Document[]> {
     return this.http.get<Document[]>(`${this.apiUrl}`);
@@ -59,4 +62,11 @@ export class DocumentService {
   createDocument(formData: FormData): Observable<Document> {
     return this.http.post<Document>(this.apiUrl, formData);
   }
+
+  downloadDocument(id: number): Observable<Blob> {
+    const url = `/api/documents/${id}/file`;
+    return this.http.get(url, { responseType: 'blob' });
+  }
+  
+  
 }

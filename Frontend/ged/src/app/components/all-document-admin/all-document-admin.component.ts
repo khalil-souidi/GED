@@ -26,20 +26,20 @@ export class AllDocumentAdminComponent implements OnInit {
   }
 
   loadDocuments(): void {
-    // this.documentService.getDocumentsByStatus('En_COURS').subscribe({
-    //   next: (docs: Document[]) => this.enCoursDocuments = docs,
-    //   error: err => console.error('Erreur lors du chargement des documents en cours', err)
-    // });
+    this.documentService.getDocumentsByStatus('En_COURS').subscribe({
+      next: (docs: Document[]) => this.enCoursDocuments = docs,
+      error: err => console.error('Erreur lors du chargement des documents en cours', err)
+    });
 
-    // this.documentService.getDocumentsByStatus('APPROUVÉ').subscribe({
-    //   next: (docs: Document[]) => this.approuveDocuments = docs,
-    //   error: err => console.error('Erreur lors du chargement des documents approuvés', err)
-    // });
+    this.documentService.getDocumentsByStatus('APPROUVÉ').subscribe({
+      next: (docs: Document[]) => this.approuveDocuments = docs,
+      error: err => console.error('Erreur lors du chargement des documents approuvés', err)
+    });
 
-    // this.documentService.getDocumentsByStatus('REFUSÉ').subscribe({
-    //   next: (docs: Document[]) => this.refuseDocuments = docs,
-    //   error: err => console.error('Erreur lors du chargement des documents refusés', err)
-    // });
+    this.documentService.getDocumentsByStatus('REFUSÉ').subscribe({
+      next: (docs: Document[]) => this.refuseDocuments = docs,
+      error: err => console.error('Erreur lors du chargement des documents refusés', err)
+    });
   }
 
   // Method to get paginated documents
