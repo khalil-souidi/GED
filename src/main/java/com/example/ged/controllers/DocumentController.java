@@ -197,5 +197,11 @@
             List<DocumentTypeStat> stats = documentService.getDocumentTypeStatistics();
             return ResponseEntity.ok(stats);
         }
+        @GetMapping("/documents/department-statistics")
+        public ResponseEntity<List<DocumentDepartmentStat>> getDocumentDepartmentStatistics() {
+            List<DocumentDepartmentStat> stats = documentService.getDocumentDepartmentStatistics();
+            return ResponseEntity.ok(stats);
+        }
+
 
     }

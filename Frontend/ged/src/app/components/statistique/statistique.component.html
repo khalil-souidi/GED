@@ -1,19 +1,48 @@
 <app-header></app-header>
 <br><br>
 <div class="statistics-container">
+  <!-- Radio Buttons for Selecting Statistics Type -->
+  <div class="radio-group">
+    <label>
+      <input type="radio" name="statsType" value="type" [(ngModel)]="selectedStatsType" (change)="loadStatistics()"> 
+      Document Type Statistics
+    </label>
+    <label>
+      <input type="radio" name="statsType" value="department" [(ngModel)]="selectedStatsType" (change)="loadStatistics()">
+      Department Statistics
+    </label>
+  </div>
+
   <!-- Logo Section -->
   <div class="logo-section">
     <span class="material-icons logo" (click)="navigateTo('home')">home</span>
     <span class="material-icons logo" (click)="navigateTo('archive')">archive</span>
   </div>
 
-  <h2>Document Type Statistics</h2>
-  
+  <h2>{{ selectedStatsType === 'type' ? 'Document Type Statistics' : 'Department Statistics' }}</h2>
+
+  <!-- Conditional Rendering of the Charts -->
   <ngx-charts-pie-chart
+    *ngIf="selectedStatsType === 'type'"
     [view]="view"
-    [results]="documentTypeData"
+    [results]="chartData"
     [legend]="showLegend"
     [legendPosition]="legendPosition"
     [doughnut]="false">
   </ngx-charts-pie-chart>
+
+  <ngx-charts-bar-vertical
+    *ngIf="selectedStatsType === 'department'"
+    [view]="view"
+    [results]="chartData"
+    [xAxis]="true"
+    [yAxis]="true"
+    [legend]="showLegend"
+    [legendPosition]="legendPosition"
+    [showXAxisLabel]="true"
+    [showYAxisLabel]="true"
+    xAxisLabel="Department"
+    yAxisLabel="Count"
+    [animations]="true">
+  </ngx-charts-bar-vertical>
 </div>
