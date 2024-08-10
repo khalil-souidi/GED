@@ -1,0 +1,10 @@
+<div class="header-container">
+  <img src="assets/radeema.jpeg" alt="RADEEMA Logo" class="logo">
+  <div class="title">RADEEMA</div>
+  <div class="user-menu" (click)="toggleDropdown()">
+    bienvenu(e) Khalil
+    <div class="dropdown" *ngIf="isDropdownVisible">
+      <button class="logout-btn" (click)="logout()">Logout</button>
+    </div>
+  </div>
+</div>

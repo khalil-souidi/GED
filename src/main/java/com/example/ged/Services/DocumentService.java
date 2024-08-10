@@ -275,5 +275,16 @@ public class DocumentService {
                 .map(entry -> new DocumentTypeStat(entry.getKey(), entry.getValue()))
                 .collect(Collectors.toList());
     }
+    public List<DocumentDepartmentStat> getDocumentDepartmentStatistics() {
+        List<Document> archivedDocuments = documentRepository.findByArchivedTrue();
+
+        return archivedDocuments.stream()
+                .collect(Collectors.groupingBy(doc -> doc.getDepartement().getName(), Collectors.counting()))
+                .entrySet()
+                .stream()
+                .map(entry -> new DocumentDepartmentStat(entry.getKey(), entry.getValue()))
+                .collect(Collectors.toList());
+    }
+
 
 }

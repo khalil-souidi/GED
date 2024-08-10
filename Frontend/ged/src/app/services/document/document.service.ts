@@ -80,4 +80,7 @@ export class DocumentService {
   getDocumentTypeStatistics(): Observable<{type: string, count: number}[]> {
     return this.http.get<{type: string, count: number}[]>(`${this.apiUrl}/statistics`);
   }
+  getDocumentDepartmentStatistics(): Observable<{department: string, count: number}[]> {
+    return this.http.get<{department: string, count: number}[]>(`${this.apiUrl}/department-statistics`);
+  }
 }

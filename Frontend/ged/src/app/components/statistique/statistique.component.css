@@ -36,3 +36,52 @@ h2 {
 .statistics-container > div {
   display: block;
 }
+.radio-group {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  margin-bottom: 20px;
+}
+
+.radio-group label {
+  font-size: 16px;
+  color: #0077b6;
+  cursor: pointer;
+}
+
+.radio-group input[type="radio"] {
+  margin-right: 10px;
+}
+
+.statistics-container {
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
+  text-align: center;
+  position: relative;
+}
+
+.logo-section {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  display: flex;
+  flex-direction: row;
+  gap: 20px; /* Space between the logos */
+}
+
+.logo {
+  font-size: 40px;
+  color: #0077b6;
+  cursor: pointer;
+  transition: transform 0.3s ease-in-out, color 0.3s ease-in-out;
+}
+
+.logo:hover {
+  transform: scale(1.2);
+  color: #005f8a;
+}
+
+h2 {
+  margin-bottom: 20px;
+}
