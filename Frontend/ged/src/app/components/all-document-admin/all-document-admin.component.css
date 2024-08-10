@@ -1,68 +1,180 @@
+@import url('https://fonts.googleapis.com/icon?family=Material+Icons');
 .container {
-    width: 100%;
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 20px;
-  }
-  
-  .header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 30px;
-  }
-  
-  .logo, .title, .user {
-    font-size: 20px;
-    font-weight: bold;
-  }
-  
-  .title {
-    text-align: center;
-    flex-grow: 1;
-  }
-  
-  .document-sections {
-    display: flex;
-    justify-content: space-between;
-  }
-  
-  .section {
-    width: 30%;
-  }
-  
-  .section h3 {
-    text-align: center;
-    margin-bottom: 20px;
-  }
-  
-  .document {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 10px;
-  }
-  
-  .pagination {
-    text-align: center;
-    margin-top: 20px;
-  }
-  
-  .add-document {
-    text-align: right;
-    margin-top: 40px;
-  }
-  
-  .add-document button {
-    padding: 10px 20px;
-    background-color: #007bff;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-  }
-  
-  .add-document button:hover {
-    background-color: #0056b3;
-  }
-  
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #ffffff;
+  border-radius: 15px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  position: relative;
+}
+
+.logo-section {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  display: flex;
+  gap: 15px;
+}
+
+.logo {
+  font-size: 40px;
+  color: #0077b6;
+  cursor: pointer;
+  transition: transform 0.3s ease-in-out, color 0.3s ease-in-out;
+}
+
+.logo:hover {
+  transform: scale(1.2);
+  color: #005f8a;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+}
+
+.title {
+  font-size: 24px;
+  font-weight: bold;
+  text-align: center;
+  flex-grow: 1;
+}
+
+.user {
+  font-size: 18px;
+}
+
+.document-sections {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.section {
+  flex: 1;
+  padding: 20px;
+  background-color: #f8f9fa;
+  border-radius: 10px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+}
+
+.section h3 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.document {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+  padding: 15px;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #5e88aa, #b9e0f3);
+  color: white;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  transition: transform 0.3s ease-in-out;
+}
+
+.document:hover {
+  transform: scale(1.02);
+}
+
+.document .document-link {
+  color: white;
+  text-decoration: none;
+  display: inline-block;
+  width: calc(100% - 120px); /* Adjusted for three buttons */
+}
+
+.document .document-link:hover {
+  text-decoration: none;
+}
+
+.document div {
+  display: flex;
+  gap: 10px; /* Added gap to create space between buttons */
+}
+
+.btn.btn-success.btn-sm,
+.btn.btn-danger.btn-sm,
+.btn.btn-light.btn-sm {
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+  padding: 8px 15px;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.btn.btn-success.btn-sm {
+  background-color: #28a745;
+  color: #fff;
+}
+
+.btn.btn-success.btn-sm:hover {
+  background-color: #218838;
+}
+
+.btn.btn-danger.btn-sm {
+  background-color: #dc3545;
+  color: #fff;
+}
+
+.btn.btn-danger.btn-sm:hover {
+  background-color: #c82333;
+}
+
+.pagination {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.pagination button {
+  padding: 10px 15px;
+  border-radius: 5px;
+  border: none;
+  background-color: #0077b6;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  font-size: 16px;
+}
+
+.pagination button:hover {
+  background-color: #005f8a;
+}
+
+.pagination span {
+  font-size: 18px;
+  color: #0077b6;
+  margin: 0 15px;
+}
+
+.add-document {
+  text-align: right;
+  margin-top: 30px;
+}
+
+.add-document button {
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.add-document button:hover {
+  background-color: #0069d9;
+}
+
+h1 {
+  font-size: 36px;
+  margin-bottom: 30px;
+  text-align: center;
+  color: #0077b6;
+}

@@ -1,17 +1,53 @@
-<div *ngIf="document">
-  <h2>Document Details: {{ document.nomDoc }}</h2>
-  <p><strong>Client Name:</strong> {{ document.nomClient }}</p>
-  <p><strong>Client Number:</strong> {{ document.numClient }}</p>
-  <p><strong>Email:</strong> {{ document.emailClient }}</p>
-  <p><strong>Department:</strong> {{ document.departement.name }}</p>
-  <p><strong>Document Type:</strong> {{ document.typeDoc.nom }}</p>
-  <p><strong>Status:</strong> {{ document.documentStatus }}</p>
-  <p><strong>Date Created:</strong> {{ document.dateCreation | date }}</p>
-  <p><strong>Comments:</strong> {{ document.commentaireRejet }}</p>
+<div class="container" *ngIf="document">
+  <!-- Header -->
+  <div class="header">
+    <div class="logo">LOGO : RADEEMA</div>
+    <div class="title">GED</div>
+    <div class="user">M. Khalil</div>
+  </div>
+  
+  <h2 class="doc-title">{{ document.nomDoc }}</h2>
 
-  <button (click)="downloadDocument()">Download Document</button>
+  <!-- Workflow Steps -->
+  <div class="workflow">
+    <div class="step">
+      <div class="circle" [ngClass]="{'complete': document.workflow.etapeCourante === 'DEPOT'}"></div>
+      <span>DEPOT</span>
+    </div>
+    <div class="line"></div>
+    <div class="step">
+      <div class="circle" [ngClass]="{'complete': document.workflow.etapeCourante === 'TRAITEMENT'}"></div>
+      <span>TRAITEMENT</span>
+    </div>
+    <div class="line"></div>
+    <div class="step">
+      <div class="circle" [ngClass]="{'complete': document.workflow.etapeCourante === 'CLOTURE'}"></div>
+      <span>CLOTURE</span>
+    </div>
+  </div>
 
-  <!-- Add any other fields that you want to display -->
+  <!-- Document and Client Information -->
+  <div class="details-section">
+    <!-- Document Information -->
+    <div class="document-info">
+      <p><strong>Numero de dossier:</strong> {{ document.codeUnique }}</p>
+      <p><strong>Date:</strong> {{ document.dateCreation | date }}</p>
+      <p><strong>Status:</strong> {{ document.documentStatus }}</p>
+      <p><strong>Type:</strong> {{ document.typeDoc.nom }}</p>
+      <p><strong>Departement:</strong> {{ document.departement.name }}</p>
+    </div>
 
-  <button (click)="goBack()">Back to Documents</button>
+    <!-- Client Information -->
+    <div class="client-info">
+      <h3>Informations client liées</h3>
+      <p><strong>Nom et prenom:</strong> {{ document.nomClient }}</p>
+      <p><strong>Email:</strong> {{ document.emailClient }}</p>
+      <p><strong>Numero de telephone:</strong> {{ document.numClient }}</p>
+    </div>
+  </div>
+
+  <div class="actions">
+    <button (click)="downloadDocument()">Telecharge le dossier</button>
+    <button class="back-button" (click)="goBack()">Back to Documents</button>
+  </div>
 </div>

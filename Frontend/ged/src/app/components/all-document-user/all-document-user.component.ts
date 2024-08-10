@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { DocumentService } from 'src/app/services/document/document.service';
 import { Document } from 'src/app/models/Document.model';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-all-document-user',
@@ -16,7 +17,7 @@ export class AllDocumentUserComponent implements OnInit {
   currentPageCloture: number = 1;
   documentsPerPage: number = 5;
 
-  constructor(private documentService: DocumentService) {}
+  constructor(private documentService: DocumentService, private router : Router) {}
 
   ngOnInit(): void {
     this.loadDocuments();
@@ -33,6 +34,8 @@ export class AllDocumentUserComponent implements OnInit {
       },
       error: (err) => console.error('Error fetching documents in treatment stage', err)
     });
+
+    
     
 
     // Fetch documents in "Cloture" stage
@@ -80,4 +83,8 @@ export class AllDocumentUserComponent implements OnInit {
       error: (err) => console.error('Error closing workflow', err)
     });
   }
+  navigateTo(route: string): void {
+    this.router.navigate([`/${route}`]);
+  }
+  
 }

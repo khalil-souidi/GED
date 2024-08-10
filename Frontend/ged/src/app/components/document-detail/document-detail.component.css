@@ -1,0 +1,95 @@
+.container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+  }
+  
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+  }
+  
+  .logo, .title, .user {
+    font-size: 20px;
+    font-weight: bold;
+  }
+  
+  .title {
+    text-align: center;
+    flex-grow: 1;
+  }
+  
+  .doc-title {
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 24px;
+  }
+  
+  .workflow {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    margin-bottom: 30px;
+  }
+  
+  .step {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .circle {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background-color: #000;
+    margin-bottom: 5px;
+  }
+  
+  .complete {
+    background-color: #28a745;
+  }
+  
+  .line {
+    width: 100px;
+    height: 2px;
+    background-color: #000;
+  }
+  
+  .details-section {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 30px;
+  }
+  
+  .document-info, .client-info {
+    flex: 1;
+    padding: 20px;
+  }
+  
+  .client-info h3 {
+    margin-bottom: 15px;
+  }
+  
+  .actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+  }
+  
+  .actions button {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+  }
+  
+  .back-button {
+    background-color: #6c757d;
+  }
+  

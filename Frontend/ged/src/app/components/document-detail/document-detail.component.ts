@@ -5,6 +5,8 @@ import { Document } from 'src/app/models/Document.model';
 import { Location } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { saveAs } from 'file-saver';
+import { DocumentStatus } from 'src/app/models/DocumentStatus.model';
+import { EtapeWorkflow } from 'src/app/models/EtapeWorkflow.model';
 
 @Component({
   selector: 'app-document-detail',
@@ -31,21 +33,29 @@ export class DocumentDetailComponent implements OnInit {
   }
 
   downloadDocument() {
-    const url = `http://localhost:91/api/documents/${this.document?.id}/file`; // Adjust the URL to match your backend
-    this.http.get(url, { responseType: 'blob' }).subscribe({
-      next: (blob) => {
+    if (this.document?.id) {
+      const url = `http://localhost:91/api/documents/${this.document.id}/file`; // Replace with your actual URL
+      this.http.get(url, { responseType: 'blob' }).subscribe((blob) => {
         const downloadUrl = window.URL.createObjectURL(blob);
         const a = document.createElement('a');
         a.href = downloadUrl;
-        a.download = this.document?.metadata.nomFichierOriginal || 'download'; // Set the file name from metadata
+        a.download = this.document?.nomDoc || 'document'; // Set the file name using the document name
         a.click();
         window.URL.revokeObjectURL(downloadUrl);
-      },
-      error: (err) => console.error('Error downloading file', err)
-    });
+      });
+    } else {
+      console.error("Document ID is not available.");
+    }
   }
 
   goBack(): void {
     this.location.back();
+  }
+
+  getWorkflowStepClass(step: EtapeWorkflow): string {
+    if (this.document?.workflow.etapeCourante === step) {
+      return 'complete';
+    }
+    return '';
   }
 }

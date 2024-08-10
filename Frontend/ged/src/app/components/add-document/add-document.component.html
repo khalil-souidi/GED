@@ -51,10 +51,23 @@
       </select>
     </div>
     
-    <!-- Fichier -->
+    <!-- Fichier - Drag and Drop -->
     <div class="form-group">
       <label for="file">Fichier</label>
-      <input id="file" type="file" class="form-control" (change)="onFileSelected($event)" />
+      <div
+        class="file-drop-area"
+        (dragover)="onDragOver($event)"
+        (dragleave)="onDragLeave($event)"
+        (drop)="onFileDropped($event)"
+      >
+        <span class="choose-file-text">Drag & Drop your file here or click to upload</span>
+        <input id="file" type="file" class="file-input" (change)="onFileSelected($event)" />
+      </div>
+
+      <!-- Display the selected file name -->
+      <div *ngIf="selectedFile" class="selected-file">
+        Fichier sélectionné: {{ selectedFile.name }}
+      </div>
     </div>
     
     <button type="submit" class="btn btn-primary">Ajouter</button>

@@ -64,6 +64,24 @@ export class AllDocumentAdminComponent implements OnInit {
     this.router.navigate(['/add-document']);
   }
 
+  navigateTo(route: string): void {
+    this.router.navigate([`/${route}`]);
+  }
+  
+
+
+  deleteDocument(document: Document): void {
+    if (confirm(`Are you sure you want to delete the document: ${document.nomDoc}?`)) {
+      this.documentService.deleteDocument(document.id).subscribe({
+        next: () => {
+          // Remove the deleted document from the list
+          this.refuseDocuments = this.refuseDocuments.filter(doc => doc.id !== document.id);
+        },
+        error: err => console.error('Erreur lors de la suppression du document', err)
+      });
+    }
+  }
+
   // Methods for pagination
   nextPageEnCours(): void {
     this.currentPageEnCours++;

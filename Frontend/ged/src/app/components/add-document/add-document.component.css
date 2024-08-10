@@ -1,0 +1,95 @@
+.container {
+  width: 80%;  /* Reduced width to make the container smaller */
+  max-width: 800px;  /* Maximum width for the container */
+  margin: 40px auto;  /* Center the container and add top/bottom margin */
+  padding: 30px 20px;  /* Adjusted padding for a more compact layout */
+  background-color: #ffffff;
+  border-radius: 15px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+h2 {
+  text-align: center;
+  font-size: 30px;  /* Adjusted font size for a more compact layout */
+  color: #0077b6;
+  margin-bottom: 20px;
+}
+
+.form-group {
+  margin-bottom: 15px;  /* Reduced margin between form groups */
+}
+
+.form-group label {
+  font-weight: bold;
+  color: #0077b6;
+  margin-bottom: 8px;  /* Adjusted margin for a more compact layout */
+  display: block;
+}
+
+.form-control {
+  width: 90%;
+  padding: 8px;  /* Adjusted padding for inputs */
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  font-size: 14px;  /* Reduced font size */
+}
+
+.form-control:focus {
+  border-color: #0077b6;
+  box-shadow: 0 2px 4px rgba(0, 119, 182, 0.3);
+}
+
+/* Drag-and-drop file upload area */
+.file-drop-area {
+  position: relative;
+  width: 90%;  /* Ensure the drag-and-drop area takes up full width of the form */
+  padding: 15px;  /* Reduced padding to make the area smaller */
+  border: 2px dashed #0077b6;
+  border-radius: 10px;
+  text-align: center;
+  transition: background-color 0.3s ease;
+}
+
+.file-drop-area.hover {
+  background-color: #e6f7ff;
+}
+
+.choose-file-text {
+  color: #0077b6;
+  font-size: 14px;  /* Reduced font size */
+}
+
+.file-input {
+  opacity: 0;
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  cursor: pointer;
+}
+
+/* Styling for the selected file name display */
+.selected-file {
+  margin-top: 10px;
+  font-size: 14px;
+  color: #0077b6;
+  font-weight: bold;
+}
+
+button[type="submit"] {
+  width: 90%;
+  padding: 10px;
+  background-color: #0077b6;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+button[type="submit"]:hover {
+  background-color: #005f8a;
+}

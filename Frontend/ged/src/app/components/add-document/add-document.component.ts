@@ -74,6 +74,27 @@ export class AddDocumentComponent implements OnInit {
     this.selectedFile = event.target.files[0];
   }
 
+  onDragOver(event: DragEvent): void {
+    event.preventDefault();
+    const fileDropArea = event.currentTarget as HTMLElement;
+    fileDropArea.classList.add('hover');
+  }
+
+  onDragLeave(event: DragEvent): void {
+    const fileDropArea = event.currentTarget as HTMLElement;
+    fileDropArea.classList.remove('hover');
+  }
+
+  onFileDropped(event: DragEvent): void {
+    event.preventDefault();
+    const fileDropArea = event.currentTarget as HTMLElement;
+    fileDropArea.classList.remove('hover');
+
+    if (event.dataTransfer && event.dataTransfer.files.length > 0) {
+      this.selectedFile = event.dataTransfer.files[0];
+    }
+  }
+
   onSubmit(): void {
     if (this.documentForm.invalid || !this.selectedFile) {
       console.log('Form is invalid or no file selected');
