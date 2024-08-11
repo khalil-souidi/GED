@@ -5,18 +5,26 @@
   <!-- Search Bar -->
   <div class="search-bar">
     <input type="text" placeholder="Recherche par Code Unique" [(ngModel)]="searchCodeUnique">
-    <input type="text" placeholder="Recherche par Type" [(ngModel)]="searchType">
+    
+    <!-- Replace input with select for searchType -->
+    <select [(ngModel)]="searchType">
+      <option value="">Tous les types</option> <!-- Option for selecting all types -->
+      <option *ngFor="let type of documentTypes" [value]="type">{{ type }}</option>
+    </select>
+    
     <select [(ngModel)]="sort">
       <option value="desc">Date: Le plus récent d'abord</option>
       <option value="asc">Date: Le plus ancien d'abord</option>
     </select>
     <button (click)="onSearch()">Recherche</button>
   </div>
- <!-- Logo Section -->
- <div class="logo-section">
-  <span class="material-icons logo" (click)="navigateTo('home')">home</span>
-  <span class="material-icons logo" (click)="navigateTo('statistique')">bar_chart</span>
-</div>
+  
+  <!-- Logo Section -->
+  <div class="logo-section">
+    <span class="material-icons logo" (click)="navigateTo('home')">home</span>
+    <span class="material-icons logo" (click)="navigateTo('statistique')">bar_chart</span>
+  </div>
+  
   <!-- Document List -->
   <div class="document-list">
     <div *ngFor="let document of getPaginatedDocuments()" class="document">

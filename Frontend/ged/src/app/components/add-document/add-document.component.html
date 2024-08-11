@@ -39,7 +39,7 @@
     </div>
     
     <div class="form-group">
-      <label for="numClient">Numéro du Client</label>
+      <label for="numClient">Numéro téléphone du Client</label>
       <input id="numClient" formControlName="numClient" type="number" class="form-control" required/>
       <div *ngIf="documentForm.get('numClient')?.invalid && documentForm.get('numClient')?.touched" class="text-danger">
         Veuillez fournir le numéro du client.

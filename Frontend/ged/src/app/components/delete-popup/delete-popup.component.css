@@ -1,0 +1,113 @@
+/* General container for the dialog */
+mat-dialog-container {
+    border-radius: 12px;
+    padding: 0;
+    box-shadow: 0px 10px 25px rgba(0, 0, 0, 0.15);
+    background-color: #ffffff;
+    overflow: hidden;
+}
+
+/* Title styling */
+h1[mat-dialog-title] {
+    background: linear-gradient(135deg, #0077b6, #00b4d8);
+    color: #ffffff;
+    margin: 0;
+    padding: 20px;
+    font-size: 26px;
+    font-weight: bold;
+    text-align: center;
+}
+
+/* Content styling */
+mat-dialog-content {
+    padding: 25px;
+    font-size: 18px;
+    color: #333333;
+    text-align: center;
+    line-height: 1.6;
+    margin-top: 20px;
+}
+
+/* Actions container styling */
+mat-dialog-actions {
+    display: flex;
+    justify-content: space-between;
+    padding: 20px;
+    background-color: #f7f7f7;
+    border-top: 1px solid #e0e0e0;
+}
+
+/* Cancel button styling */
+button[mat-button] {
+    background-color: #ffffff;
+    color: #0077b6;
+    padding: 10px 20px;
+    border-radius: 25px;
+    font-size: 16px;
+    font-weight: bold;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    border: none;
+    cursor: pointer;
+}
+
+button[mat-button]:hover {
+    background-color: #f0f0f0;
+    box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.15);
+}
+
+/* Confirm button styling */
+button[mat-button][color="warn"] {
+    background-color: #d9534f;
+    color: #ffffff;
+    padding: 10px 20px;
+    border-radius: 25px;
+    font-size: 16px;
+    font-weight: bold;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    border: none;
+    cursor: pointer;
+}
+
+button[mat-button][color="warn"]:hover {
+    background-color: #c9302c;
+    box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.15);
+}
+
+/* Button spacing */
+button[mat-button] + button[mat-button] {
+    margin-left: 15px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 500px) {
+    mat-dialog-container {
+        padding: 15px;
+    }
+
+    h1[mat-dialog-title] {
+        font-size: 22px;
+        padding: 15px;
+    }
+
+    mat-dialog-content {
+        padding: 20px;
+        font-size: 16px;
+    }
+
+    mat-dialog-actions {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    button[mat-button] {
+        padding: 8px 15px;
+        width: 100%;
+    }
+
+    button[mat-button][color="warn"] {
+        padding: 8px 15px;
+        width: 100%;
+    }
+}

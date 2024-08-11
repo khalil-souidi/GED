@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { DocumentService } from 'src/app/services/document/document.service';
 import { MatDialog } from '@angular/material/dialog';
 import { RejectionPopupComponent } from '../rejection-popup/rejection-popup.component';
+import { DeletePopupComponent } from '../delete-popup/delete-popup.component';
 
 @Component({
   selector: 'app-all-document-admin',
@@ -103,12 +104,19 @@ export class AllDocumentAdminComponent implements OnInit {
   }
 
   deleteDocument(document: Document): void {
-    if (confirm(`Are you sure you want to delete the document: ${document.nomDoc}?`)) {
-      this.documentService.deleteDocument(document.id).subscribe({
-        next: () => this.loadDocuments(),
-        error: err => console.error('Erreur lors de la suppression du document', err)
-      });
-    }
+    const dialogRef = this.dialog.open(DeletePopupComponent, {
+      width: '400px',
+      data: { nomDoc: document.nomDoc }
+    });
+  
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.documentService.deleteDocument(document.id).subscribe({
+          next: () => this.loadDocuments(),
+          error: err => console.error('Erreur lors de la suppression du document', err)
+        });
+      }
+    });
   }
 
   navigateToAddDocument(): void {

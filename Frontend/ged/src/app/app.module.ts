@@ -18,6 +18,7 @@ import { ConfirmationPopupComponent } from './components/confirmation-popup/conf
 import { HomeComponent } from './components/home/home.component';
 import { HeaderComponent } from './components/header/header.component';
 import { RejectionPopupComponent } from './components/rejection-popup/rejection-popup.component';
+import { DeletePopupComponent } from './components/delete-popup/delete-popup.component';
 
 @NgModule({
   declarations: [
@@ -31,7 +32,8 @@ import { RejectionPopupComponent } from './components/rejection-popup/rejection-
     StatistiqueComponent,
     HomeComponent,
     HeaderComponent,
-    RejectionPopupComponent
+    RejectionPopupComponent,
+    DeletePopupComponent
     ],
   imports: [
     BrowserModule,

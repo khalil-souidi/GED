@@ -17,7 +17,10 @@ export class ArchiveComponent implements OnInit {
   // Search criteria
   searchCodeUnique: string = '';
   searchType: string = '';
-  sort: string = 'desc';  
+  sort: string = 'desc';
+
+  // Array to store unique document types
+  documentTypes: string[] = [];
 
   constructor(private documentService: DocumentService, private router: Router) {}
 
@@ -30,10 +33,17 @@ export class ArchiveComponent implements OnInit {
       next: (docs: Document[]) => {
         this.archivedDocuments = docs;
         this.filteredArchivedDocuments = docs;
+        this.extractDocumentTypes(); // Extract unique document types
         this.onSearch(); // Apply initial search or sorting
       },
       error: (err) => console.error('Error fetching archived documents', err)
     });
+  }
+
+  // Method to extract unique document types from the list
+  extractDocumentTypes(): void {
+    const typesSet = new Set(this.archivedDocuments.map(doc => doc.typeDoc.nom));
+    this.documentTypes = Array.from(typesSet);
   }
 
   onSearch(): void {
@@ -47,7 +57,7 @@ export class ArchiveComponent implements OnInit {
 
     if (this.searchType) {
       filteredDocs = filteredDocs.filter(doc =>
-        doc.typeDoc.nom.toLowerCase().includes(this.searchType.toLowerCase())
+        doc.typeDoc.nom.toLowerCase() === this.searchType.toLowerCase()
       );
     }
 
