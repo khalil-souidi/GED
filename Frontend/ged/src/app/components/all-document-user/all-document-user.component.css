@@ -11,6 +11,19 @@
   position: relative;
 }
 
+.search-bar {
+  margin-bottom: 20px;
+  display: flex;
+  justify-content: center;
+}
+
+.search-bar input {
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  width: 50%;
+  font-size: 16px;
+}
 .logo-section {
   position: absolute;
   top: 20px;
@@ -96,33 +109,14 @@
   text-decoration: none;
 }
 
-.document div {
-  display: flex;
-  gap: 10px; /* Added gap to create space between buttons */
-}
-
-.btn.btn-success.btn-sm,
-.btn.btn-danger.btn-sm,
-.btn.btn-light.btn-sm {
+.btn.btn-danger.btn-sm {
+  background-color: #dc3545;
+  color: #fff;
   border: none;
   cursor: pointer;
   border-radius: 5px;
   padding: 8px 15px;
   transition: background-color 0.3s ease, transform 0.3s ease;
-}
-
-.btn.btn-success.btn-sm {
-  background-color: #28a745;
-  color: #fff;
-}
-
-.btn.btn-success.btn-sm:hover {
-  background-color: #218838;
-}
-
-.btn.btn-danger.btn-sm {
-  background-color: #dc3545;
-  color: #fff;
 }
 
 .btn.btn-danger.btn-sm:hover {

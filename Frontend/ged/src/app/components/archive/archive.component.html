@@ -4,13 +4,13 @@
   <h1>Archive</h1>
   <!-- Search Bar -->
   <div class="search-bar">
-    <input type="text" placeholder="Search by CodeUnique" [(ngModel)]="searchCodeUnique">
-    <input type="text" placeholder="Search by Type" [(ngModel)]="searchType">
+    <input type="text" placeholder="Recherche par Code Unique" [(ngModel)]="searchCodeUnique">
+    <input type="text" placeholder="Recherche par Type" [(ngModel)]="searchType">
     <select [(ngModel)]="sort">
-      <option value="desc">Date: Newest First</option>
-      <option value="asc">Date: Oldest First</option>
+      <option value="desc">Date: Le plus récent d'abord</option>
+      <option value="asc">Date: Le plus ancien d'abord</option>
     </select>
-    <button (click)="onSearch()">Search</button>
+    <button (click)="onSearch()">Recherche</button>
   </div>
  <!-- Logo Section -->
  <div class="logo-section">

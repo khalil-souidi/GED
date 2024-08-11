@@ -6,36 +6,44 @@
     <span class="material-icons logo" (click)="navigateTo('home')">home</span>
   </div>
 
-
   <h1>Espace User</h1>
+
+  <!-- Search Bar -->
+  <div class="search-bar">
+    <input type="text" placeholder="Recherche par Code Unique" [(ngModel)]="searchCodeUnique" (input)="filterDocuments()">
+  </div>
 
   <!-- Document Sections -->
   <div class="document-sections">
     <!-- Documents En Traitement Section -->
     <div class="section">
       <h3>Documents En Traitement</h3>
-      <div *ngFor="let document of getPaginatedEnTraitement()" class="document">
-        <span>{{ document.nomDoc }} - {{ document.nomClient }}</span>
-        <button class="btn btn-primary btn-sm" (click)="closeWorkflow(document.id)">Clôture</button>
+      <div *ngFor="let document of getPaginatedDocuments(filteredEnTraitement, currentPageEnTraitement)" class="document">
+        <a [routerLink]="['/document-detail', document.id]" class="document-link">
+          <span>{{ document.nomDoc }} - {{ document.nomClient }}</span>
+        </a>
+        <button class="btn btn-danger btn-sm" (click)="closeWorkflow(document.id)">Clôture</button>
       </div>
       
       <div class="pagination">
         <button (click)="prevPageEnTraitement()" [disabled]="currentPageEnTraitement === 1">Précédent</button>
         <span>Page {{ currentPageEnTraitement }}</span>
-        <button (click)="nextPageEnTraitement()" [disabled]="getPaginatedEnTraitement().length < documentsPerPage">Suivant</button>
+        <button (click)="nextPageEnTraitement()" [disabled]="getPaginatedDocuments(filteredEnTraitement, currentPageEnTraitement).length < documentsPerPage">Suivant</button>
       </div>
     </div>
 
     <!-- Documents Cloture Section -->
     <div class="section">
       <h3>Documents Clôturés</h3>
-      <div *ngFor="let document of getPaginatedCloture()" class="document">
-        <span>{{ document.nomDoc }} - {{ document.nomClient }}</span>
+      <div *ngFor="let document of getPaginatedDocuments(filteredCloture, currentPageCloture)" class="document">
+        <a [routerLink]="['/document-detail', document.id]" class="document-link">
+          <span>{{ document.nomDoc }} - {{ document.nomClient }}</span>
+        </a>
       </div>
       <div class="pagination">
         <button (click)="prevPageCloture()" [disabled]="currentPageCloture === 1">Précédent</button>
         <span>Page {{ currentPageCloture }}</span>
-        <button (click)="nextPageCloture()" [disabled]="getPaginatedCloture().length < documentsPerPage">Suivant</button>
+        <button (click)="nextPageCloture()" [disabled]="getPaginatedDocuments(filteredCloture, currentPageCloture).length < documentsPerPage">Suivant</button>
       </div>
     </div>
   </div>

@@ -1,11 +1,9 @@
+<app-header></app-header>
+<br><br>
 <div class="container" *ngIf="document">
-  <!-- Header -->
-  <div class="header">
-    <div class="logo">LOGO : RADEEMA</div>
-    <div class="title">GED</div>
-    <div class="user">M. Khalil</div>
+  <div class="home-logo">
+    <span class="material-icons home-icon" (click)="navigateTo('home')">home</span>
   </div>
-  
   <h2 class="doc-title">{{ document.nomDoc }}</h2>
 
   <!-- Workflow Steps -->
@@ -30,24 +28,27 @@
   <div class="details-section">
     <!-- Document Information -->
     <div class="document-info">
-      <p><strong>Numero de dossier:</strong> {{ document.codeUnique }}</p>
-      <p><strong>Date:</strong> {{ document.dateCreation | date }}</p>
+      <h3>Informations sur le document</h3>
+      <p><strong>Titre:</strong> {{ document.nomDoc }}</p>
+      <p><strong>Code Unique:</strong> {{ document.codeUnique }}</p>
+      <p><strong>Date:</strong> {{ document.dateCreation | date:'dd/MM/yyyy' }}</p>
       <p><strong>Status:</strong> {{ document.documentStatus }}</p>
       <p><strong>Type:</strong> {{ document.typeDoc.nom }}</p>
-      <p><strong>Departement:</strong> {{ document.departement.name }}</p>
+      <p><strong>Département:</strong> {{ document.departement.name }}</p>
+      <p><strong>Téléchargé par:</strong> {{ document.uploadedBy.nom }} {{ document.uploadedBy.prenom }}</p>
     </div>
 
     <!-- Client Information -->
     <div class="client-info">
       <h3>Informations client liées</h3>
-      <p><strong>Nom et prenom:</strong> {{ document.nomClient }}</p>
+      <p><strong>Nom et Prénom:</strong> {{ document.nomClient }}</p>
       <p><strong>Email:</strong> {{ document.emailClient }}</p>
-      <p><strong>Numero de telephone:</strong> {{ document.numClient }}</p>
+      <p><strong>Numéro de téléphone:</strong> {{ document.numClient }}</p>
     </div>
   </div>
 
   <div class="actions">
-    <button (click)="downloadDocument()">Telecharge le dossier</button>
-    <button class="back-button" (click)="goBack()">Back to Documents</button>
+    <button (click)="downloadDocument()">Téléchargez le dossier</button>
+    <button class="back-button" (click)="goBack()">Retour aux Documents</button>
   </div>
 </div>

@@ -1,0 +1,18 @@
+<!-- rejection-popup.component.html -->
+<div class="popup-overlay">
+    <div class="popup-content">
+        <button class="close-button" (click)="onNoClick()">X</button>
+        <h3>Message de Rejet</h3>
+        <p>Veuillez entrer la raison du rejet :</p>
+        <textarea 
+          class="rejection-textarea" 
+          [(ngModel)]="rejectionMessage" 
+          placeholder="Entrez la raison du rejet ici" 
+          title="Champ pour entrer la raison du rejet">
+        </textarea>
+        <div class="popup-actions">
+            <button class="btn btn-secondary" (click)="onNoClick()">Annuler</button>
+            <button class="btn btn-primary" (click)="submitRejection()">Soumettre</button>
+        </div>
+    </div>
+</div>

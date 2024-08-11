@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { DocumentService } from 'src/app/services/document/document.service';
 import { DepartmentService } from 'src/app/services/department/department.service';
@@ -7,8 +6,9 @@ import { UserService } from 'src/app/services/user/user.service';
 import { TypeDocumentService } from 'src/app/services/type-document/type-document.service';
 import { Departement } from 'src/app/models/Departement.model';
 import { Users } from 'src/app/models/Users.model';
-import { Router } from '@angular/router';
 import { TypeDocument } from 'src/app/models/type-document.model';
+import { Router } from '@angular/router';
+import { MatDialog } from '@angular/material/dialog';
 import { ConfirmationPopupComponent } from '../confirmation-popup/confirmation-popup.component';
 
 @Component({
@@ -39,7 +39,7 @@ export class AddDocumentComponent implements OnInit {
       numClient: ['', Validators.required],
       emailClient: ['', [Validators.required, Validators.email]],
       departementName: ['', Validators.required],
-      userId: ['', Validators.required]
+      userId: ['', Validators.required],
     });
   }
 
@@ -95,7 +95,16 @@ export class AddDocumentComponent implements OnInit {
     }
   }
 
+  isFileInvalid(): boolean {
+    return !this.selectedFile && this.documentForm.get('file')?.touched!;
+  }
+
+  markAllAsTouched(): void {
+    this.documentForm.markAllAsTouched();
+  }
+
   onSubmit(): void {
+    this.markAllAsTouched();
     if (this.documentForm.invalid || !this.selectedFile) {
       console.log('Form is invalid or no file selected');
       return;

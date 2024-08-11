@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { DocumentService } from 'src/app/services/document/document.service';
 import { Document } from 'src/app/models/Document.model';
 import { Location } from '@angular/common';
@@ -21,7 +21,8 @@ export class DocumentDetailComponent implements OnInit {
     private route: ActivatedRoute,
     private documentService: DocumentService,
     private location: Location,
-    private http: HttpClient
+    private http: HttpClient,
+    private router : Router
   ) {}
 
   ngOnInit(): void {
@@ -58,4 +59,8 @@ export class DocumentDetailComponent implements OnInit {
     }
     return '';
   }
+  navigateTo(route: string): void {
+    this.router.navigate([`/${route}`]);
+  }
+  
 }

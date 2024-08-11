@@ -7,12 +7,18 @@
   </div>
 
   <h1>Espace Admin</h1>
+
+  <!-- Search Bar -->
+  <div class="search-bar">
+    <input type="text" placeholder="Recherche par Code Unique" [(ngModel)]="searchCodeUnique" (input)="filterDocuments()">
+  </div>
+
   <!-- Document Sections -->
   <div class="document-sections">
     <!-- EN COURS Section -->
     <div class="section">
       <h3>EN COURS</h3>
-      <div *ngFor="let document of getPaginatedDocuments(enCoursDocuments, currentPageEnCours)" class="document">
+      <div *ngFor="let document of getPaginatedDocuments(filteredEnCoursDocuments, currentPageEnCours)" class="document">
         <a [routerLink]="['/document-detail', document.id]" class="document-link">
           <span>{{ document.nomDoc }} | {{ document.nomClient }}</span>
         </a>
@@ -24,14 +30,14 @@
       <div class="pagination">
         <button (click)="prevPageEnCours()" [disabled]="currentPageEnCours === 1">Précédent</button>
         <span>Page {{ currentPageEnCours }}</span>
-        <button (click)="nextPageEnCours()" [disabled]="getPaginatedDocuments(enCoursDocuments, currentPageEnCours).length < documentsPerPage">Suivant</button>
+        <button (click)="nextPageEnCours()" [disabled]="getPaginatedDocuments(filteredEnCoursDocuments, currentPageEnCours).length < documentsPerPage">Suivant</button>
       </div>
     </div>
 
     <!-- APPROUVÉ Section -->
     <div class="section">
       <h3>APPROUVÉ</h3>
-      <div *ngFor="let document of getPaginatedDocuments(approuveDocuments, currentPageApprouve)" class="document">
+      <div *ngFor="let document of getPaginatedDocuments(filteredApprouveDocuments, currentPageApprouve)" class="document">
         <a [routerLink]="['/document-detail', document.id]" class="document-link">
           <span>{{ document.nomDoc }} | {{ document.nomClient }}</span>
         </a>
@@ -39,14 +45,14 @@
       <div class="pagination">
         <button (click)="prevPageApprouve()" [disabled]="currentPageApprouve === 1">Précédent</button>
         <span>Page {{ currentPageApprouve }}</span>
-        <button (click)="nextPageApprouve()" [disabled]="getPaginatedDocuments(approuveDocuments, currentPageApprouve).length < documentsPerPage">Suivant</button>
+        <button (click)="nextPageApprouve()" [disabled]="getPaginatedDocuments(filteredApprouveDocuments, currentPageApprouve).length < documentsPerPage">Suivant</button>
       </div>
     </div>
 
     <!-- REFUSÉ Section -->
     <div class="section">
       <h3>REFUSÉ</h3>
-      <div *ngFor="let document of getPaginatedDocuments(refuseDocuments, currentPageRefuse)" class="document">
+      <div *ngFor="let document of getPaginatedDocuments(filteredRefuseDocuments, currentPageRefuse)" class="document">
         <a [routerLink]="['/document-detail', document.id]" class="document-link">
           <span>{{ document.nomDoc }} | {{ document.nomClient }}</span>
         </a>
@@ -57,7 +63,7 @@
       <div class="pagination">
         <button (click)="prevPageRefuse()" [disabled]="currentPageRefuse === 1">Précédent</button>
         <span>Page {{ currentPageRefuse }}</span>
-        <button (click)="nextPageRefuse()" [disabled]="getPaginatedDocuments(refuseDocuments, currentPageRefuse).length < documentsPerPage">Suivant</button>
+        <button (click)="nextPageRefuse()" [disabled]="getPaginatedDocuments(filteredRefuseDocuments, currentPageRefuse).length < documentsPerPage">Suivant</button>
       </div>
     </div>
   </div>

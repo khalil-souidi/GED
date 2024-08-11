@@ -18,6 +18,10 @@ h2 {
 .form-group {
   margin-bottom: 15px;  /* Reduced margin between form groups */
 }
+.text-danger{
+  color: red;
+  margin-top: 5px;
+}
 
 .form-group label {
   font-weight: bold;

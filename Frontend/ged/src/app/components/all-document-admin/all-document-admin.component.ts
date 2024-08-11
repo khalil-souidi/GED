@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { Document } from '../../models/Document.model';
 import { Router } from '@angular/router';
 import { DocumentService } from 'src/app/services/document/document.service';
+import { MatDialog } from '@angular/material/dialog';
+import { RejectionPopupComponent } from '../rejection-popup/rejection-popup.component';
 
 @Component({
   selector: 'app-all-document-admin',
@@ -13,13 +15,20 @@ export class AllDocumentAdminComponent implements OnInit {
   approuveDocuments: Document[] = [];
   refuseDocuments: Document[] = [];
 
+  // Filtered documents for search
+  filteredEnCoursDocuments: Document[] = [];
+  filteredApprouveDocuments: Document[] = [];
+  filteredRefuseDocuments: Document[] = [];
+
   // Pagination properties
   currentPageEnCours = 1;
   currentPageApprouve = 1;
   currentPageRefuse = 1;
   documentsPerPage = 5;
 
-  constructor(private documentService: DocumentService, private router: Router) { }
+  searchCodeUnique: string = '';
+
+  constructor(private documentService: DocumentService, private router: Router, public dialog: MatDialog) { }
 
   ngOnInit(): void {
     this.loadDocuments();
@@ -27,17 +36,26 @@ export class AllDocumentAdminComponent implements OnInit {
 
   loadDocuments(): void {
     this.documentService.getDocumentsByStatus('En_COURS').subscribe({
-      next: (docs: Document[]) => this.enCoursDocuments = docs,
+      next: (docs: Document[]) => {
+        this.enCoursDocuments = docs;
+        this.filteredEnCoursDocuments = docs;
+      },
       error: err => console.error('Erreur lors du chargement des documents en cours', err)
     });
 
     this.documentService.getDocumentsByStatus('APPROUVÉ').subscribe({
-      next: (docs: Document[]) => this.approuveDocuments = docs,
+      next: (docs: Document[]) => {
+        this.approuveDocuments = docs;
+        this.filteredApprouveDocuments = docs;
+      },
       error: err => console.error('Erreur lors du chargement des documents approuvés', err)
     });
 
     this.documentService.getDocumentsByStatus('REFUSÉ').subscribe({
-      next: (docs: Document[]) => this.refuseDocuments = docs,
+      next: (docs: Document[]) => {
+        this.refuseDocuments = docs;
+        this.filteredRefuseDocuments = docs;
+      },
       error: err => console.error('Erreur lors du chargement des documents refusés', err)
     });
   }
@@ -48,16 +66,49 @@ export class AllDocumentAdminComponent implements OnInit {
     return documents.slice(startIndex, startIndex + this.documentsPerPage);
   }
 
+  filterDocuments(): void {
+    const searchTerm = this.searchCodeUnique.toLowerCase();
+
+    this.filteredEnCoursDocuments = this.enCoursDocuments.filter(doc =>
+      doc.codeUnique.toLowerCase().includes(searchTerm)
+    );
+    this.filteredApprouveDocuments = this.approuveDocuments.filter(doc =>
+      doc.codeUnique.toLowerCase().includes(searchTerm)
+    );
+    this.filteredRefuseDocuments = this.refuseDocuments.filter(doc =>
+      doc.codeUnique.toLowerCase().includes(searchTerm)
+    );
+  }
+
   approveDocument(document: Document): void {
-    this.documentService.updateDocumentStatus(document.id,'APPROUVÉ','').subscribe(() => this.loadDocuments());
+    this.documentService.updateDocumentStatus(document.id, 'APPROUVÉ', '')
+      .subscribe(() => this.loadDocuments());
   }
 
   refuseDocument(document: Document): void {
-    this.documentService.updateDocumentStatus(document.id, 'REFUSÉ', '')
-      .subscribe({
+    const dialogRef = this.dialog.open(RejectionPopupComponent, {
+      width: '300px',
+      data: { document }
+    });
+  
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.documentService.updateDocumentStatus(document.id, 'REFUSÉ', result)
+          .subscribe({
+            next: () => this.loadDocuments(),
+            error: err => console.error('Erreur lors de la mise à jour du statut du document', err)
+          });
+      }
+    });
+  }
+
+  deleteDocument(document: Document): void {
+    if (confirm(`Are you sure you want to delete the document: ${document.nomDoc}?`)) {
+      this.documentService.deleteDocument(document.id).subscribe({
         next: () => this.loadDocuments(),
-        error: err => console.error('Erreur lors de la mise à jour du statut du document', err)
+        error: err => console.error('Erreur lors de la suppression du document', err)
       });
+    }
   }
 
   navigateToAddDocument(): void {
@@ -66,20 +117,6 @@ export class AllDocumentAdminComponent implements OnInit {
 
   navigateTo(route: string): void {
     this.router.navigate([`/${route}`]);
-  }
-  
-
-
-  deleteDocument(document: Document): void {
-    if (confirm(`Are you sure you want to delete the document: ${document.nomDoc}?`)) {
-      this.documentService.deleteDocument(document.id).subscribe({
-        next: () => {
-          // Remove the deleted document from the list
-          this.refuseDocuments = this.refuseDocuments.filter(doc => doc.id !== document.id);
-        },
-        error: err => console.error('Erreur lors de la suppression du document', err)
-      });
-    }
   }
 
   // Methods for pagination
@@ -106,4 +143,5 @@ export class AllDocumentAdminComponent implements OnInit {
   prevPageRefuse(): void {
     if (this.currentPageRefuse > 1) this.currentPageRefuse--;
   }
+  
 }

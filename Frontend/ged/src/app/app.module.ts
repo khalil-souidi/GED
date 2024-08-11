@@ -17,6 +17,7 @@ import { AddDocumentComponent } from './components/add-document/add-document.com
 import { ConfirmationPopupComponent } from './components/confirmation-popup/confirmation-popup.component';
 import { HomeComponent } from './components/home/home.component';
 import { HeaderComponent } from './components/header/header.component';
+import { RejectionPopupComponent } from './components/rejection-popup/rejection-popup.component';
 
 @NgModule({
   declarations: [
@@ -30,7 +31,8 @@ import { HeaderComponent } from './components/header/header.component';
     StatistiqueComponent,
     HomeComponent,
     HeaderComponent,
-  ],
+    RejectionPopupComponent
+    ],
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -38,7 +40,7 @@ import { HeaderComponent } from './components/header/header.component';
     ReactiveFormsModule,
     HttpClientModule,
     NgxChartsModule,
-    MatDialogModule
+    MatDialogModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

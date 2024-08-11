@@ -1,0 +1,118 @@
+/* Rejection Popup Styles */
+.popup-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000; /* Ensure it appears above other content */
+}
+
+.popup-content {
+    background-color: #f9f9f9; /* Light gray background */
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
+    width: 100%;
+    max-width: 400px;
+    text-align: center;
+    position: relative;
+    animation: fadeIn 0.3s ease; /* Optional: Adds a subtle fade-in effect */
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: scale(0.9); }
+    to { opacity: 1; transform: scale(1); }
+}
+
+.close-button {
+    background: none;
+    border: none;
+    font-size: 22px;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    cursor: pointer;
+    color: #ff5c5c; /* Red color for the close button */
+}
+
+.close-button:hover {
+    color: #ff0000; /* Darker red on hover */
+}
+
+h3 {
+    color: #333; /* Dark gray for the title */
+}
+
+.rejection-textarea {
+    width: 90%;
+    height: 100px;
+    margin-top: 15px;
+    padding: 12px;
+    border-radius: 8px;
+    border: 1px solid #007bff; /* Blue border */
+    font-size: 16px;
+    background-color: #e6f0ff; /* Light blue background for the textarea */
+    color: #333; /* Dark text color */
+    resize: none; /* Prevents resizing */
+}
+
+.rejection-textarea:focus {
+    outline: none;
+    border-color: #0056b3; /* Darker blue on focus */
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5); /* Adds a subtle shadow on focus */
+    background-color: #cce5ff; /* Lighter blue background on focus */
+}
+
+.popup-actions {
+    margin-top: 25px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.popup-actions .btn {
+    padding: 10px 25px;
+    border-radius: 6px;
+    cursor: pointer;
+    width: 48%;
+    font-weight: bold;
+}
+
+.btn-secondary {
+    background-color: #ffc107; /* Yellow color for secondary button */
+    border: none;
+    color: #333;
+}
+
+.btn-secondary:hover {
+    background-color: #e0a800; /* Darker yellow on hover */
+}
+
+.btn-primary {
+    background-color: #007bff; /* Blue color for primary button */
+    border: none;
+    color: white;
+}
+
+.btn-primary:hover {
+    background-color: #0056b3; /* Darker blue on hover */
+}
+
+/* Responsive adjustments */
+@media (max-width: 500px) {
+    .popup-content {
+        padding: 20px;
+    }
+
+    .rejection-textarea {
+        height: 80px;
+    }
+
+    .popup-actions .btn {
+        padding: 8px 15px;
+    }
+}

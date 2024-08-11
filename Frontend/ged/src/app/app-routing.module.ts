@@ -17,6 +17,8 @@ const routes: Routes = [
   { path: 'statistique', component: StatistiqueComponent },
   { path: 'archive', component: ArchiveComponent },
   { path: 'home', component: HomeComponent },
+  { path: '**', redirectTo: '', pathMatch: 'full' }
+
 
 
 ];

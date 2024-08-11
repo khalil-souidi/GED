@@ -6,6 +6,8 @@ import com.example.ged.Repository.AuditLogRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class AuditLogService {
     @Autowired
@@ -20,4 +22,17 @@ public class AuditLogService {
         auditLog.setUser(user);
         auditLogRepository.save(auditLog);
     }
+
+    public List<AuditLog> getAllAuditLogs() {
+        return auditLogRepository.findAll();
+    }
+
+    public List<AuditLog> getAuditLogsByDocumentId(Long documentId) {
+        return auditLogRepository.findByEntityId(documentId);
+    }
+
+    public AuditLog saveAuditLog(AuditLog auditLog) {
+        return auditLogRepository.save(auditLog);
+    }
+
 }

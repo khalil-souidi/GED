@@ -12,12 +12,18 @@ export class AllDocumentUserComponent implements OnInit {
   documentsEnTraitement: Document[] = [];
   documentsCloture: Document[] = [];
 
+  // Filtered documents for search
+  filteredEnTraitement: Document[] = [];
+  filteredCloture: Document[] = [];
+
   // Pagination settings
   currentPageEnTraitement: number = 1;
   currentPageCloture: number = 1;
   documentsPerPage: number = 5;
 
-  constructor(private documentService: DocumentService, private router : Router) {}
+  searchCodeUnique: string = '';
+
+  constructor(private documentService: DocumentService, private router: Router) {}
 
   ngOnInit(): void {
     this.loadDocuments();
@@ -29,28 +35,51 @@ export class AllDocumentUserComponent implements OnInit {
     // Fetch documents in "EnTraitement" stage
     this.documentService.getDocumentsByDepartmentAndWorkflow(department, 'TRAITEMENT').subscribe({
       next: (docs: Document[]) => {
-        console.log('Documents En Traitement:', docs); // Add this line
         this.documentsEnTraitement = docs;
+        this.filteredEnTraitement = docs;
       },
       error: (err) => console.error('Error fetching documents in treatment stage', err)
     });
 
-    
-    
-
     // Fetch documents in "Cloture" stage
     this.documentService.getDocumentsByDepartmentAndWorkflow(department, 'CLOTURE').subscribe({
-      next: (docs: Document[]) => this.documentsCloture = docs,
+      next: (docs: Document[]) => {
+        this.documentsCloture = docs;
+        this.filteredCloture = docs;
+      },
       error: (err) => console.error('Error fetching closed documents', err)
     });
   }
 
-  // Pagination methods for "EnTraitement"
-  getPaginatedEnTraitement(): Document[] {
-    const startIndex = (this.currentPageEnTraitement - 1) * this.documentsPerPage;
-    return this.documentsEnTraitement.slice(startIndex, startIndex + this.documentsPerPage);
+  // Method to get paginated documents
+  getPaginatedDocuments(documents: Document[], currentPage: number): Document[] {
+    const startIndex = (currentPage - 1) * this.documentsPerPage;
+    return documents.slice(startIndex, startIndex + this.documentsPerPage);
   }
 
+  filterDocuments(): void {
+    const searchTerm = this.searchCodeUnique.toLowerCase();
+
+    this.filteredEnTraitement = this.documentsEnTraitement.filter(doc =>
+      doc.codeUnique.toLowerCase().includes(searchTerm)
+    );
+    this.filteredCloture = this.documentsCloture.filter(doc =>
+      doc.codeUnique.toLowerCase().includes(searchTerm)
+    );
+  }
+
+  closeWorkflow(documentId: number): void {
+    this.documentService.closeWorkflow(documentId).subscribe({
+      next: () => this.loadDocuments(),  // Reload documents after closing workflow
+      error: (err) => console.error('Error closing workflow', err)
+    });
+  }
+
+  navigateTo(route: string): void {
+    this.router.navigate([`/${route}`]);
+  }
+
+  // Pagination methods for "EnTraitement"
   nextPageEnTraitement(): void {
     this.currentPageEnTraitement++;
   }
@@ -62,11 +91,6 @@ export class AllDocumentUserComponent implements OnInit {
   }
 
   // Pagination methods for "Cloture"
-  getPaginatedCloture(): Document[] {
-    const startIndex = (this.currentPageCloture - 1) * this.documentsPerPage;
-    return this.documentsCloture.slice(startIndex, startIndex + this.documentsPerPage);
-  }
-
   nextPageCloture(): void {
     this.currentPageCloture++;
   }
@@ -76,15 +100,4 @@ export class AllDocumentUserComponent implements OnInit {
       this.currentPageCloture--;
     }
   }
-
-  closeWorkflow(documentId: number): void {
-    this.documentService.closeWorkflow(documentId).subscribe({
-      next: () => this.loadDocuments(),  // Reload documents after closing workflow
-      error: (err) => console.error('Error closing workflow', err)
-    });
-  }
-  navigateTo(route: string): void {
-    this.router.navigate([`/${route}`]);
-  }
-  
 }
