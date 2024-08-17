@@ -7,25 +7,23 @@ import { AllDocumentUserComponent } from './components/all-document-user/all-doc
 import { ArchiveComponent } from './components/archive/archive.component';
 import { StatistiqueComponent } from './components/statistique/statistique.component';
 import { HomeComponent } from './components/home/home.component';
+import { AuthGuard } from './AuthGuard';
+import { ForbiddenComponent } from './components/forbidden/forbidden.component';
 
 const routes: Routes = [
-  { path: '', component: HomeComponent },  // Home as the default route
-  { path: 'all-document-admin', component: AllDocumentAdminComponent },
-  { path: 'add-document', component: AddDocumentComponent },
-  { path: 'document-detail/:id', component: DocumentDetailComponent },
-  { path: 'all-document-user', component: AllDocumentUserComponent },
-  { path: 'statistique', component: StatistiqueComponent },
-  { path: 'archive', component: ArchiveComponent },
-  { path: 'home', component: HomeComponent },
+  { path: '', component: HomeComponent},
+  { path: 'all-document-admin', component: AllDocumentAdminComponent, canActivate: [AuthGuard] },
+  { path: 'add-document', component: AddDocumentComponent, canActivate: [AuthGuard] },
+  { path: 'document-detail/:id', component: DocumentDetailComponent, canActivate: [AuthGuard] },
+  { path: 'all-document-user', component: AllDocumentUserComponent, canActivate: [AuthGuard] },
+  { path: 'statistique', component: StatistiqueComponent, canActivate: [AuthGuard] },
+  { path: 'archive', component: ArchiveComponent, canActivate: [AuthGuard] },
+  { path: 'forbidden', component: ForbiddenComponent },
   { path: '**', redirectTo: '', pathMatch: 'full' }
-
-
-
 ];
-
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
 export class AppRoutingModule { }

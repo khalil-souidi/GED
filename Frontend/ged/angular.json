@@ -16,7 +16,12 @@
             "outputPath": "dist/ged",
             "index": "src/index.html",
             "main": "src/main.ts",
-            "allowedCommonJsDependencies": ["rfdc"],
+            "allowedCommonJsDependencies": [
+              "keycloak-js",
+              "base64-js",
+              "js-sha256",
+              "rfdc"
+            ],
             "polyfills": [
               "zone.js"
             ],

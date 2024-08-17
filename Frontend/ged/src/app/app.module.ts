@@ -19,6 +19,11 @@ import { HomeComponent } from './components/home/home.component';
 import { HeaderComponent } from './components/header/header.component';
 import { RejectionPopupComponent } from './components/rejection-popup/rejection-popup.component';
 import { DeletePopupComponent } from './components/delete-popup/delete-popup.component';
+import { OAuthModule, OAuthService } from 'angular-oauth2-oidc';
+import { AuthService } from './AuthService';
+import { AuthGuard } from './AuthGuard';
+import { authConfig } from './auth.config';
+import { ForbiddenComponent } from './components/forbidden/forbidden.component';
 
 @NgModule({
   declarations: [
@@ -33,7 +38,8 @@ import { DeletePopupComponent } from './components/delete-popup/delete-popup.com
     HomeComponent,
     HeaderComponent,
     RejectionPopupComponent,
-    DeletePopupComponent
+    DeletePopupComponent,
+    ForbiddenComponent
     ],
   imports: [
     BrowserModule,
@@ -43,8 +49,14 @@ import { DeletePopupComponent } from './components/delete-popup/delete-popup.com
     HttpClientModule,
     NgxChartsModule,
     MatDialogModule,
+    OAuthModule.forRoot({
+      resourceServer: {
+        allowedUrls: ['http://localhost:91'],
+        sendAccessToken: true,
+      },
+    }),
   ],
-  providers: [],
+  providers: [AuthService, AuthGuard],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {}
