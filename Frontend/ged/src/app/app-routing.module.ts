@@ -12,8 +12,8 @@ import { ForbiddenComponent } from './components/forbidden/forbidden.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent},
-  { path: 'all-document-admin', component: AllDocumentAdminComponent, canActivate: [AuthGuard] },
-  { path: 'add-document', component: AddDocumentComponent, canActivate: [AuthGuard] },
+  { path: 'all-document-admin', component: AllDocumentAdminComponent, canActivate: [AuthGuard], data: { expectedRole: 'admin' }},
+  { path: 'add-document', component: AddDocumentComponent, canActivate: [AuthGuard], data: { expectedRole: 'admin'} },
   { path: 'document-detail/:id', component: DocumentDetailComponent, canActivate: [AuthGuard] },
   { path: 'all-document-user', component: AllDocumentUserComponent, canActivate: [AuthGuard] },
   { path: 'statistique', component: StatistiqueComponent, canActivate: [AuthGuard] },

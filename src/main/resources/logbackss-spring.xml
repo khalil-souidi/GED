@@ -1,25 +1,25 @@
-<!--<?xml version="1.0" encoding="UTF-8"?>-->
-<!--<configuration>-->
-<!--    &lt;!&ndash; Define appender for logging to file &ndash;&gt;-->
-<!--    <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">-->
-<!--        <file>logs/debug.log</file>-->
-<!--        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">-->
-<!--            &lt;!&ndash; Log file will be archived every day &ndash;&gt;-->
-<!--            <fileNamePattern>Logs/debug.%d{yyyy-MM-dd}.log</fileNamePattern>-->
-<!--            &lt;!&ndash; Keep 30 days' worth of history &ndash;&gt;-->
-<!--            <maxHistory>30</maxHistory>-->
-<!--        </rollingPolicy>-->
-<!--        <encoder>-->
-<!--            <pattern>%d{yyyy-MM-dd HH:mm:ss} %-5level %logger{36} - %msg%n</pattern>-->
-<!--        </encoder>-->
-<!--    </appender>-->
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <!-- Define appender for logging to file -->
+    <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>logs/debug.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!-- Log file will be archived every day -->
+            <fileNamePattern>Logs/debug.%d{yyyy-MM-dd}.log</fileNamePattern>
+            <!-- Keep 30 days' worth of history -->
+            <maxHistory>30</maxHistory>
+        </rollingPolicy>
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss} %-5level %logger{36} - %msg%n</pattern>
+        </encoder>
+    </appender>
 
-<!--    &lt;!&ndash; Root logger configuration &ndash;&gt;-->
-<!--    <root level="DEBUG">-->
-<!--        <appender-ref ref="FILE" />-->
-<!--    </root>-->
+    <!-- Root logger configuration -->
+    <root level="DEBUG">
+        <appender-ref ref="FILE" />
+    </root>
 
-<!--    &lt;!&ndash; Specific logger configurations &ndash;&gt;-->
-<!--    <logger name="org.springframework.security" level="DEBUG" />-->
-<!--    <logger name="org.keycloak" level="DEBUG" />-->
-<!--</configuration>-->
+    <!-- Specific logger configurations -->
+    <logger name="org.springframework.security" level="DEBUG" />
+    <logger name="org.keycloak" level="DEBUG" />
+</configuration>

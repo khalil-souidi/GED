@@ -55,15 +55,12 @@
     </div>
     
     <!-- Utilisateur -->
-    <div class="form-group">
-      <label for="userId">Utilisateur</label>
-      <select id="userId" formControlName="userId" class="form-control" required>
-        <option *ngFor="let user of users" [value]="user.id">{{ user.username }}</option>
-      </select>
-      <div *ngIf="documentForm.get('userId')?.invalid && documentForm.get('userId')?.touched" class="text-danger">
-        Veuillez sélectionner un utilisateur.
-      </div>
-    </div>
+  <!-- add-document.component.html -->
+<div class="form-group">
+  <label for="userEmail">Utilisateur</label>
+  <input id="userEmail" formControlName="userEmail" type="text" class="form-control"/>
+</div>
+
     
     <!-- Fichier - Drag and Drop -->
     <div class="form-group">

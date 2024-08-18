@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { AuthService } from 'src/app/AuthService';
 
 @Component({
   selector: 'app-home',
@@ -8,9 +9,21 @@ import { Router } from '@angular/router';
 })
 export class HomeComponent {
 
-  constructor(private router: Router) { }
+  constructor(private router: Router, private authService: AuthService) { }
 
-  navigateTo(route: string): void {
-    this.router.navigate([route]);
+  navigateToDocuments(): void {
+    if (this.authService.hasRole('admin')) {
+      this.router.navigate(['all-document-admin']);
+    } else if (this.authService.hasRole('user')) {
+      this.router.navigate(['all-document-user']);
+    }
+    else {
+      // If the user is not logged in, redirect to the login page
+      this.authService.login();
+    }
+  }
+
+  navigateToArchive(): void {
+    this.router.navigate(['archive']);
   }
 }

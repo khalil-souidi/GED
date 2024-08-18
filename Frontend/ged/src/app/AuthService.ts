@@ -16,7 +16,7 @@ export class AuthService {
     this.oauthService.loadDiscoveryDocumentAndTryLogin({
       onTokenReceived: (context) => {
         console.log("Token received:", context);
-        this.router.navigate(['/all-document-admin']);
+        this.router.navigate(['/home']);
       },
       onLoginError: (err) => {
         console.error("Error during login:", err);
@@ -57,13 +57,35 @@ export class AuthService {
     });
   }
 
-  public getFirstName(): string | null {
+  public getFirstName(): string {
     const claims: any = this.oauthService.getIdentityClaims();
     return claims ? claims.given_name : null;
   }
-  public getLastName(): string | null {
+
+  public getLastName(): string {
     const claims: any = this.oauthService.getIdentityClaims();
     return claims ? claims.family_name : null;
   }
-  
+
+  public getFullName(): string {
+    return this.getLastName() + ' ' + this.getFirstName();
+  }
+
+  public getUserId(): string | null {
+    const claims: any = this.oauthService.getIdentityClaims();
+    return claims ? claims.sub : null;
+  }
+
+  public getRoles(): string[] {
+    const claims: any = this.oauthService.getIdentityClaims();
+    return claims?.groups || [];
+  }
+
+  public hasRole(role: string): boolean {
+    return this.getRoles().includes(role);
+  }
+  public getUserEmail(): string {
+    const claims: any = this.oauthService.getIdentityClaims();
+    return claims ? claims.email : null;
+  }
 }

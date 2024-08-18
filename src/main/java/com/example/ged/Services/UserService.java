@@ -1,5 +1,6 @@
 package com.example.ged.Services;
 
+import com.example.ged.DTO.UserDepartmentResponse;
 import com.example.ged.Entities.Users;
 import com.example.ged.Repository.UsersRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,5 +27,12 @@ public class UserService {
 
     public List<Users> getAllUsers() {
         return usersRepository.findAll();
+    }
+
+    public UserDepartmentResponse getUserDepartmentByEmail(String email) {
+        Users user = usersRepository.findByEmail(email)
+                .orElseThrow(() -> new RuntimeException("User not found with email " + email));
+        String departmentName = user.getDepartment().getName();
+        return new UserDepartmentResponse(user.getId(), user.getEmail(), departmentName); // Include user ID
     }
 }

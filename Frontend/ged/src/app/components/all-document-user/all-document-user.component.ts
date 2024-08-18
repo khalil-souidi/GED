@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { DocumentService } from 'src/app/services/document/document.service';
 import { Document } from 'src/app/models/Document.model';
 import { Router } from '@angular/router';
+import { AuthService } from 'src/app/AuthService';
+import { UserDepartmentService } from 'src/app/services/userDTO/user-department.service';
 
 @Component({
   selector: 'app-all-document-user',
@@ -22,15 +24,34 @@ export class AllDocumentUserComponent implements OnInit {
   documentsPerPage: number = 5;
 
   searchCodeUnique: string = '';
+  departmentName: string | null = '';
 
-  constructor(private documentService: DocumentService, private router: Router) {}
+  constructor(
+    private documentService: DocumentService, 
+    private router: Router,
+    private authService: AuthService, 
+    private userDepartmentService: UserDepartmentService
+  ) {}
 
   ngOnInit(): void {
-    this.loadDocuments();
+    const email = this.authService.identityClaims?.['email']; // Use bracket notation to access 'email'
+    if (email) {
+      this.userDepartmentService.getUserDepartment(email).subscribe({
+        next: (response) => {
+          this.departmentName = response.departmentName;
+          this.loadDocuments();  // Only load documents after departmentName is available
+        },
+        error: (err) => {
+          console.error('Error fetching department:', err);
+        }
+      });
+    } else {
+      console.error('User email is not available.');
+    }
   }
 
   loadDocuments(): void {
-    const department = 'Rh';
+    const department = this.departmentName as string; // This will ensure department is a string
 
     // Fetch documents in "EnTraitement" stage
     this.documentService.getDocumentsByDepartmentAndWorkflow(department, 'TRAITEMENT').subscribe({
