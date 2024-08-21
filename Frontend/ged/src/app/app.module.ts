@@ -7,7 +7,6 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { MatDialogModule } from '@angular/material/dialog';
 
-// Import your components
 import { AllDocumentAdminComponent } from './components/all-document-admin/all-document-admin.component';
 import { DocumentDetailComponent } from './components/document-detail/document-detail.component';
 import { AllDocumentUserComponent } from './components/all-document-user/all-document-user.component';
@@ -20,9 +19,8 @@ import { HeaderComponent } from './components/header/header.component';
 import { RejectionPopupComponent } from './components/rejection-popup/rejection-popup.component';
 import { DeletePopupComponent } from './components/delete-popup/delete-popup.component';
 import { OAuthModule, OAuthService } from 'angular-oauth2-oidc';
-import { AuthService } from './AuthService';
-import { AuthGuard } from './AuthGuard';
-import { authConfig } from './auth.config';
+import { AuthService } from './Security/AuthService';
+import { AuthGuard } from './Security/AuthGuard';
 import { ForbiddenComponent } from './components/forbidden/forbidden.component';
 
 @NgModule({

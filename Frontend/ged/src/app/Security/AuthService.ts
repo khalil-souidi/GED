@@ -24,7 +24,6 @@ export class AuthService {
       }
     });
 
-    // Set up automatic silent refresh to ensure token refresh before expiry
     this.oauthService.setupAutomaticSilentRefresh();
   }
 

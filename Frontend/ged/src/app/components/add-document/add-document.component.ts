@@ -9,7 +9,7 @@ import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmationPopupComponent } from '../confirmation-popup/confirmation-popup.component';
 import { UserDepartmentService } from 'src/app/services/userDTO/user-department.service';
-import { AuthService } from 'src/app/AuthService';
+import { AuthService } from 'src/app/Security/AuthService';
 
 @Component({
   selector: 'app-add-document',

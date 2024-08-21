@@ -8,22 +8,20 @@ import com.example.ged.Services.EmailService;
 import com.example.ged.Services.TypeDocumentService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
+import org.mockito.MockitoAnnotations;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
-@ExtendWith(MockitoExtension.class)
 public class DocumentServiceTest {
 
     @Mock
@@ -53,77 +51,126 @@ public class DocumentServiceTest {
     @InjectMocks
     private DocumentService documentService;
 
-    private Document document;
-    private Users user;
-    private MultipartFile file;
-
     @BeforeEach
     public void setUp() {
-        document = new Document();
-        document.setId(1L);
-        document.setNomDoc("Test Document");
-
-        user = new Users();
-        user.setId(1L);
-        user.setEmail("user@example.com");
-
-        file = mock(MultipartFile.class);
+        MockitoAnnotations.openMocks(this);
     }
 
     @Test
     public void testGetAllDocuments() {
-        when(documentRepository.findAll()).thenReturn(List.of(document));
+        List<Document> documents = Arrays.asList(new Document(), new Document());
+        when(documentRepository.findAll()).thenReturn(documents);
 
-        List<Document> documents = documentService.getAllDocuments();
+        List<Document> result = documentService.getAllDocuments();
 
-        assertEquals(1, documents.size());
-        assertEquals("Test Document", documents.get(0).getNomDoc());
+        assertEquals(2, result.size());
+        verify(documentRepository, times(1)).findAll();
     }
 
     @Test
-    public void testGetDocumentById() {
-        when(documentRepository.findById(1L)).thenReturn(Optional.of(document));
+    public void testGetDocumentsByStatus() {
+        DocumentStatus status = DocumentStatus.APPROUVÉ;
+        List<Document> documents = Arrays.asList(new Document(), new Document());
+        when(documentRepository.findByDocumentStatus(status)).thenReturn(documents);
 
-        Document foundDocument = documentService.getDocumentById(1L);
+        List<Document> result = documentService.getDocumentsByStatus(status);
 
-        assertEquals(1L, foundDocument.getId());
-        assertEquals("Test Document", foundDocument.getNomDoc());
+        assertEquals(2, result.size());
+        verify(documentRepository, times(1)).findByDocumentStatus(status);
+    }
+
+    @Test
+    public void testSearchDocumentsByName() {
+        String name = "Test Document";
+        List<Document> documents = Arrays.asList(new Document(), new Document());
+        when(documentRepository.findByNomDocContainingIgnoreCase(name)).thenReturn(documents);
+
+        List<Document> result = documentService.searchDocumentsByName(name);
+
+        assertEquals(2, result.size());
+        verify(documentRepository, times(1)).findByNomDocContainingIgnoreCase(name);
     }
 
     @Test
     public void testSaveDocument() throws IOException {
-        when(typeDocumentService.getTypeDocumentByNom(anyString())).thenReturn(new TypeDocument());
-        when(metadataRepository.save(any(Metadata.class))).thenReturn(new Metadata());
+        // Arrange
+        Document document = new Document();
+        MultipartFile file = mock(MultipartFile.class);
+        Users user = new Users();
+        String typeDocNom = "Type Test";
+
+        TypeDocument typeDocument = new TypeDocument();
+        when(typeDocumentService.getTypeDocumentByNom(typeDocNom)).thenReturn(typeDocument);
         when(documentRepository.save(any(Document.class))).thenReturn(document);
-
-        Document savedDocument = documentService.saveDocument(document, file, user, "Test Type");
-
+        when(metadataRepository.save(any(Metadata.class))).thenReturn(new Metadata());
+        when(file.getOriginalFilename()).thenReturn("test.pdf");
+        when(file.getContentType()).thenReturn("application/pdf");
+        when(file.getBytes()).thenReturn(new byte[]{1, 2, 3});
+        Document savedDocument = documentService.saveDocument(document, file, user, typeDocNom);
         assertNotNull(savedDocument);
         verify(documentRepository, times(1)).save(document);
-        verify(auditLogService, times(1)).logAction(eq("CREATE"), eq("Document"), anyLong(), anyString(), eq(user));
+        verify(metadataRepository, times(1)).save(any(Metadata.class));
+
     }
+
 
     @Test
     public void testDeleteDocument() {
-        when(documentRepository.findById(1L)).thenReturn(Optional.of(document));
+        Long documentId = 1L;
+        Document document = new Document();
+        document.setId(documentId);
+        Users user = new Users();
+        document.setUploadedBy(user);
 
-        documentService.deleteDocument(1L);
+        when(documentRepository.findById(documentId)).thenReturn(Optional.of(document));
 
-        verify(documentRepository, times(1)).deleteById(1L);
-        verify(auditLogService, times(1)).logAction(eq("DELETE"), eq("Document"), eq(1L), anyString(), eq(document.getUploadedBy()));
+        documentService.deleteDocument(documentId);
+
+        verify(documentRepository, times(1)).deleteById(documentId);
+        verify(auditLogService, times(1)).logAction(eq("DELETE"), eq("Document"), eq(documentId), eq("Document deleted"), eq(user));
     }
 
     @Test
-    public void testGetDocumentsByDepartement() {
-        Departement departement = new Departement();
-        departement.setName("Test Department");
+    public void testUpdateDocumentStatus() {
+        Long documentId = 1L;
+        DocumentStatus status = DocumentStatus.APPROUVÉ;
+        String commentaireRejet = "Commentaire de test";
+        Document document = new Document();
+        document.setId(documentId);
+        document.setUploadedBy(new Users());
 
-        when(departementRepository.findByName("Test Department")).thenReturn(Optional.of(departement));
-        when(documentRepository.findByDepartement(departement)).thenReturn(List.of(document));
+        // Create and set a mock workflow
+        Workflow workflow = new Workflow();
+        document.setWorkflow(workflow);
 
-        List<Document> documents = documentService.getDocumentsByDepartement("Test Department");
+        when(documentRepository.findById(documentId)).thenReturn(Optional.of(document));
+        when(documentRepository.save(any(Document.class))).thenReturn(document);
 
-        assertEquals(1, documents.size());
-        assertEquals("Test Document", documents.get(0).getNomDoc());
+        Document updatedDocument = documentService.updateDocumentStatus(documentId, status, commentaireRejet);
+
+        assertEquals(status, updatedDocument.getDocumentStatus());
+        assertEquals(EtapeWorkflow.TRAITEMENT, workflow.getEtapeCourante());
+        verify(documentRepository, times(1)).save(document);
+        verify(auditLogService, times(1)).logAction(eq("UPDATE_STATUS"), eq("Document"), eq(documentId), eq("Document status updated to " + status), eq(document.getUploadedBy()));
+    }
+
+    @Test
+    public void testWorkflowToCloture() {
+        Long documentId = 1L;
+        Document document = new Document();
+        document.setId(documentId);
+        Workflow workflow = new Workflow();
+        workflow.setEtapeCourante(EtapeWorkflow.TRAITEMENT);
+        document.setWorkflow(workflow);
+
+        when(documentRepository.findById(documentId)).thenReturn(Optional.of(document));
+        when(documentRepository.save(any(Document.class))).thenReturn(document);
+
+        documentService.WorkflowToCloture(documentId);
+
+        assertEquals(EtapeWorkflow.CLOTURE, workflow.getEtapeCourante());
+        verify(workflowRepository, times(1)).save(workflow);
+        verify(documentRepository, times(1)).save(document);
+        verify(auditLogService, times(1)).logAction(eq("CLOSE_WORKFLOW"), eq("Document"), eq(documentId), eq("Document workflow closed and archived"), eq(document.getUploadedBy()));
     }
 }

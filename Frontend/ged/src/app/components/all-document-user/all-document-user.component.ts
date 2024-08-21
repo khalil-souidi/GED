@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { DocumentService } from 'src/app/services/document/document.service';
 import { Document } from 'src/app/models/Document.model';
 import { Router } from '@angular/router';
-import { AuthService } from 'src/app/AuthService';
+import { AuthService } from 'src/app/Security/AuthService';
 import { UserDepartmentService } from 'src/app/services/userDTO/user-department.service';
 
 @Component({

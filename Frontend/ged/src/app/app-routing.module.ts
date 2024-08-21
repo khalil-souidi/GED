@@ -7,7 +7,7 @@ import { AllDocumentUserComponent } from './components/all-document-user/all-doc
 import { ArchiveComponent } from './components/archive/archive.component';
 import { StatistiqueComponent } from './components/statistique/statistique.component';
 import { HomeComponent } from './components/home/home.component';
-import { AuthGuard } from './AuthGuard';
+import { AuthGuard } from './Security/AuthGuard';
 import { ForbiddenComponent } from './components/forbidden/forbidden.component';
 
 const routes: Routes = [
