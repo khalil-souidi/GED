@@ -1,11 +1,9 @@
-import { Users } from "./Users.model";
-
 export interface AuditLog {
-  id: number;
   action: string;
   entity: string;
   entityId: number;
+  documentName: string; // Add this field
   details: string;
   timestamp: Date;
-  user: Users;
+  user: any; // or a specific User model
 }

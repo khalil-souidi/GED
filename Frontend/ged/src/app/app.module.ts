@@ -22,6 +22,7 @@ import { OAuthModule, OAuthService } from 'angular-oauth2-oidc';
 import { AuthService } from './Security/AuthService';
 import { AuthGuard } from './Security/AuthGuard';
 import { ForbiddenComponent } from './components/forbidden/forbidden.component';
+import { HistoriqueComponent } from './components/historique/historique.component';
 
 @NgModule({
   declarations: [
@@ -37,7 +38,8 @@ import { ForbiddenComponent } from './components/forbidden/forbidden.component';
     HeaderComponent,
     RejectionPopupComponent,
     DeletePopupComponent,
-    ForbiddenComponent
+    ForbiddenComponent,
+    HistoriqueComponent
     ],
   imports: [
     BrowserModule,

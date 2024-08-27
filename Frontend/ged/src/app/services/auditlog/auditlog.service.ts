@@ -16,4 +16,7 @@ export class AuditLogService {
     const auditLog = { action, entity, entityId, details, user };
     return this.http.post<AuditLog>(`${this.apiUrl}`, auditLog);
   }
+  getAuditLogsByUserId(userId: number): Observable<AuditLog[]> {
+    return this.http.get<AuditLog[]>(`${this.apiUrl}/user/${userId}`);
+  }
 }

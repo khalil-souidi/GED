@@ -9,6 +9,7 @@ import { StatistiqueComponent } from './components/statistique/statistique.compo
 import { HomeComponent } from './components/home/home.component';
 import { AuthGuard } from './Security/AuthGuard';
 import { ForbiddenComponent } from './components/forbidden/forbidden.component';
+import { HistoriqueComponent } from './components/historique/historique.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent},
@@ -18,6 +19,7 @@ const routes: Routes = [
   { path: 'all-document-user', component: AllDocumentUserComponent, canActivate: [AuthGuard] },
   { path: 'statistique', component: StatistiqueComponent, canActivate: [AuthGuard] },
   { path: 'archive', component: ArchiveComponent, canActivate: [AuthGuard] },
+  { path: 'historique', component: HistoriqueComponent, canActivate: [AuthGuard] },
   { path: 'forbidden', component: ForbiddenComponent },
   { path: '**', redirectTo: '', pathMatch: 'full' }
 ];
