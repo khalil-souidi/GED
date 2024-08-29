@@ -18,6 +18,7 @@ public class AuditlogDTO {
     private String entity;
     private Long entityId;
     private String documentName;
+    private String codeUnique;
     private String details;
     private Date timestamp;
     private Users user;

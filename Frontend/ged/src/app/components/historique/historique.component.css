@@ -37,6 +37,7 @@ td {
 h2 {
   margin-bottom: 20px;
   color: #0077b6;
+  text-align: center;
 }
 
 .logo-section {
@@ -77,3 +78,29 @@ h2 {
   position: relative;
 }
 
+.filter-section {
+  display: flex;
+  gap: 15px;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.filter-section input {
+  padding: 5px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.filter-section button {
+  padding: 5px 10px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.filter-section button:hover {
+  background-color: #0056b3;
+}

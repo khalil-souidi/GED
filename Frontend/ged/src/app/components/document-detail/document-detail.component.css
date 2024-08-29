@@ -51,19 +51,24 @@
   width: 20px;
   height: 20px;
   border-radius: 50%;
-  background-color: #007bff;
+  background-color: #007bff; /* Couleur par défaut */
   margin-bottom: 5px;
 }
 
 .complete {
-  background-color: #28a745;
+  background-color: #28a745; /* Vert pour les étapes complétées */
+}
+
+.rejected {
+  background-color: red; /* Rouge pour les documents refusés */
 }
 
 .line {
   width: 250px;
   height: 3px;
-  background-color: #007bff;
+  background-color: #007bff; /* Couleur des lignes */
 }
+
 
 .details-section {
   display: flex;

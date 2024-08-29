@@ -16,6 +16,7 @@ import { EtapeWorkflow } from 'src/app/models/EtapeWorkflow.model';
 export class DocumentDetailComponent implements OnInit {
 
   document: Document | undefined;
+EtapeWorkflow: any;
 
   constructor(
     private route: ActivatedRoute,
@@ -54,11 +55,22 @@ export class DocumentDetailComponent implements OnInit {
   }
 
   getWorkflowStepClass(step: EtapeWorkflow): string {
-    if (this.document?.workflow.etapeCourante === step) {
+    if (!this.document) {
+      return '';
+    }
+  
+    if (step === EtapeWorkflow.DEPOT && this.document.documentStatus === 'REFUSÉ') {
+      return 'rejected';
+    }
+  
+    if (this.document.workflow.etapeCourante === step) {
       return 'complete';
     }
+  
     return '';
   }
+  
+  
   navigateTo(route: string): void {
     this.router.navigate([`/${route}`]);
   }

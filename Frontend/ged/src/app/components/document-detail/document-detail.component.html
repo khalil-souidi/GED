@@ -9,18 +9,22 @@
   <!-- Workflow Steps -->
   <div class="workflow">
     <div class="step">
-      <div class="circle" [ngClass]="{'complete': document.workflow.etapeCourante === 'DEPOT'}"></div>
-      <span>DEPOT</span>
+      <div class="circle" [ngClass]="{
+          'complete': document.workflow.etapeCourante === 'DEPOT' && document.documentStatus !== 'REFUSÉ',
+          'rejected': document.workflow.etapeCourante === 'DEPOT' && document.documentStatus === 'REFUSÉ'
+        }"></div>
+      <span>Dépôt</span>
     </div>
     <div class="line"></div>
+    
     <div class="step">
       <div class="circle" [ngClass]="{'complete': document.workflow.etapeCourante === 'TRAITEMENT'}"></div>
-      <span>TRAITEMENT</span>
+      <span>Traitement</span>
     </div>
     <div class="line"></div>
     <div class="step">
       <div class="circle" [ngClass]="{'complete': document.workflow.etapeCourante === 'CLOTURE'}"></div>
-      <span>CLOTURE</span>
+      <span>Clôturé</span>
     </div>
   </div>
 

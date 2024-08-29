@@ -12,14 +12,20 @@ import { Router } from '@angular/router';
 })
 export class HistoriqueComponent implements OnInit {
   auditLogs: AuditLog[] = [];
+  filteredAuditLogs: AuditLog[] = [];
   userId: number | null = null;
   connectedUserEmail: string = '';
+  
+  // Variables pour les filtres
+  filterDocumentName: string = '';
+  filterDate: string = '';
+  filterCodeUnique: string = ''; // Add this field for codeUnique filtering
 
   constructor(
     private auditLogService: AuditLogService,
     private userDepartmentService: UserDepartmentService,
     private authService: AuthService,
-    private router:Router
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -43,6 +49,7 @@ export class HistoriqueComponent implements OnInit {
       this.auditLogService.getAuditLogsByUserId(this.userId).subscribe({
         next: (logs) => {
           this.auditLogs = logs;
+          this.applyFilters(); // Appliquer les filtres dès que les données sont récupérées
         },
         error: (error) => {
           console.error('Error fetching audit logs:', error);
@@ -51,6 +58,25 @@ export class HistoriqueComponent implements OnInit {
     }
   }
 
+  // Appliquer les filtres
+  applyFilters(): void {
+    this.filteredAuditLogs = this.auditLogs.filter(log => {
+      const matchesDocumentName = log.documentName.toLowerCase().includes(this.filterDocumentName.toLowerCase());
+      const matchesCodeUnique = log.codeUnique.toLowerCase().includes(this.filterCodeUnique.toLowerCase());
+      const matchesDate = this.filterDate ? new Date(log.timestamp).toLocaleDateString() === new Date(this.filterDate).toLocaleDateString() : true;
+      return matchesDocumentName && matchesCodeUnique && matchesDate;
+    });
+  }
+
+  // Réinitialiser les filtres
+  clearFilters(): void {
+    this.filterDocumentName = '';
+    this.filterCodeUnique = ''; // Clear the codeUnique filter
+    this.filterDate = '';
+    this.applyFilters();
+  }
+
+  // Navigation
   navigateTo(route: string): void {
     this.router.navigate([`/${route}`]);
   }

@@ -1,34 +1,50 @@
-
 <app-header></app-header>
 <br><br>
 <div class="container">
   <div class="logo-section">
     <span class="material-icons logo" (click)="navigateTo('home')">home</span>
-</div>
-<br><br><br>
-<div *ngIf="auditLogs.length > 0; else noLogs">
+  </div>
+  
   <h2>Historique</h2>
-  <table>
-    <thead>
-      <tr>
-        <th>Action</th>
-        <th>Entite</th>
-        <th>Nom du document</th> <!-- Updated this -->
-        <th>Détails</th>
-        <th>Date et temps</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let log of auditLogs">
-        <td>{{ log.action }}</td>
-        <td>{{ log.entity }}</td>
-        <td>{{ log.documentName }}</td> <!-- Display document name -->
-        <td>{{ log.details }}</td>
-        <td>{{ log.timestamp | date:'short' }}</td>
-      </tr>
-    </tbody>
-  </table>
+  <br><br>
+  <!-- Champs de filtrage -->
+  <div class="filter-section">
+    <label for="documentName">Nom du document:</label>
+    <input id="documentName" type="text" [(ngModel)]="filterDocumentName" (input)="applyFilters()" placeholder="Filtrer par nom de document">
+    
+    <label for="codeUniqueFilter">Code Unique:</label> <!-- Add filter for codeUnique -->
+    <input id="codeUniqueFilter" type="text" [(ngModel)]="filterCodeUnique" (input)="applyFilters()" placeholder="Filtrer par code unique">
+
+    <label for="dateFilter">Date:</label>
+    <input id="dateFilter" type="date" [(ngModel)]="filterDate" (change)="applyFilters()">
+    
+    <button (click)="clearFilters()">Réinitialiser les filtres</button>
+  </div>
+
+  <div *ngIf="filteredAuditLogs.length > 0; else noLogs">
+    <table>
+      <thead>
+        <tr>
+          <th>Action</th>
+          <th>Nom du document</th>
+          <th>Code Unique</th>
+          <th>Détails</th>
+          <th>Date et temps</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let log of filteredAuditLogs">
+          <td>{{ log.action }}</td>
+          <td>{{ log.documentName }}</td>
+          <td>{{ log.codeUnique }}</td>
+          <td>{{ log.details }}</td>
+          <td>{{ log.timestamp | date:'short' }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  
+  <ng-template #noLogs>
+    <p>Aucun historique disponible pour cet utilisateur.</p>
+  </ng-template>
 </div>
-<ng-template #noLogs>
-  <p>No audit logs available for this user.</p>
-</ng-template>

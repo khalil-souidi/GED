@@ -29,9 +29,6 @@ public class AuditLogService {
         auditLogRepository.save(auditLog);
     }
 
-    public List<AuditLog> getAllAuditLogs() {
-        return auditLogRepository.findAll();
-    }
 
     public List<AuditLog> getAuditLogsByDocumentId(Long documentId) {
         return auditLogRepository.findByEntityId(documentId);
@@ -40,6 +37,7 @@ public class AuditLogService {
     public AuditLog saveAuditLog(AuditLog auditLog) {
         return auditLogRepository.save(auditLog);
     }
+
     public List<AuditlogDTO> getAuditLogsByUserId(Long userId) {
         List<AuditLog> logs = auditLogRepository.findByUserId(userId);
         return logs.stream().map(log -> {
@@ -47,16 +45,36 @@ public class AuditLogService {
             dto.setAction(log.getAction());
             dto.setEntity(log.getEntity());
             dto.setEntityId(log.getEntityId());
-            dto.setDocumentName(getDocumentNameByEntityId(log.getEntityId()));
+            Document document = getDocumentByEntityId(log.getEntityId());
+            dto.setDocumentName(document != null ? document.getNomDoc() : "Unknown Document");
+            dto.setCodeUnique(document != null ? document.getCodeUnique() : "Unknown Code");  // Set codeUnique
             dto.setDetails(log.getDetails());
             dto.setTimestamp(log.getTimestamp());
             dto.setUser(log.getUser());
             return dto;
         }).collect(Collectors.toList());
     }
-    public String getDocumentNameByEntityId(Long entityId) {
+
+    public Document getDocumentByEntityId(Long entityId) {
         return documentRepository.findById(entityId)
-                .map(Document::getNomDoc)
-                .orElse("Unknown Document"); // Return a default name if the document is not found
+                .orElse(null); // Return null if document is not found
+    }
+
+    public List<AuditlogDTO> getAllAuditLogs() {
+        return auditLogRepository.findAll().stream().map(log -> {
+            AuditlogDTO dto = new AuditlogDTO();
+            dto.setAction(log.getAction());
+            dto.setEntity(log.getEntity());
+            dto.setEntityId(log.getEntityId());
+            Document document = getDocumentByEntityId(log.getEntityId());
+            if (document != null) {
+                dto.setDocumentName(document.getNomDoc());
+                dto.setCodeUnique(document.getCodeUnique());  // Set codeUnique
+            }
+            dto.setDetails(log.getDetails());
+            dto.setTimestamp(log.getTimestamp());
+            dto.setUser(log.getUser());
+            return dto;
+        }).collect(Collectors.toList());
     }
 }
